@@ -10,13 +10,12 @@ and may or may not have been voted out.
 public class Player {
     private String name;
     private Role role;
+    private String word;
     private boolean wordVisible;
-    private boolean isActive;
 
     public Player(String name) {
         this.name = name;
         wordVisible = false;
-        isActive = false;
     }
 
     //getters
@@ -32,13 +31,17 @@ public class Player {
         return wordVisible;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public String getWord() {
+        return word;
     }
 
     //setters
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
     }
 
     public void seeWord() {
@@ -47,13 +50,5 @@ public class Player {
 
     public void hideWord() {
         this.wordVisible = false;
-    }
-
-    public void activate() {
-        isActive = true;
-    }
-
-    public void deActivate() {
-        isActive = false;
     }
 }

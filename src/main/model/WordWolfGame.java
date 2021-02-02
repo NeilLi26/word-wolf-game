@@ -20,8 +20,10 @@ public class WordWolfGame {
         this.players = players;
         this.minorityWord = minorityWord;
         this.majorityWord = majorityWord;
-        this.remainingWhites = totalWolves;
+        this.remainingWolfs = totalWolves;
         this.remainingWhites = totalWhites;
+
+        assignWords();
     }
 
     //getters
@@ -45,6 +47,49 @@ public class WordWolfGame {
         return remainingWhites;
     }
 
+    public Role getVictor() {
+        return victor;
+    }
 
+    //setters
+    public void setVictor(Role victor) {
+        this.victor = victor;
+    }
 
+    //MODIFIES: this
+    //EFFECTS: gives the appropriate words to all the players
+    private void assignWords() {
+        for (Player p: players) {
+            if (p.getRole() == Role.MRWHITE) {
+                p.setWord("");
+            } else if (p.getRole() == Role.MINORITY) {
+                p.setWord(minorityWord);
+            } else if (p.getRole() == Role.MAJORITY) {
+                p.setWord(majorityWord);
+            }
+        }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: kick a player of the given name and return true if they are in players,
+    //          else return false
+    public Boolean kickPlayer(String name) {
+        for (Player p: players) {
+            if (p.getName() == name) {
+                players.remove(p);
+                System.out.println(name + " has been voted out");
+
+                if (p.getRole() == Role.MINORITY) {
+                    remainingWolfs--;
+                } else if (p.getRole() == Role.MRWHITE) {
+                    remainingWhites--;
+                }
+
+                return true;
+            }
+        }
+
+        System.out.println("No player of given name");
+        return false;
+    }
 }

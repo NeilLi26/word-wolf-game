@@ -3,7 +3,6 @@ package model;
 /*
 A pair of similar words
  */
-
 public class WordPair {
     private String firstWord;
     private String secondWord;
