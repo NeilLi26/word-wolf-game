@@ -11,11 +11,10 @@ public class Player {
     private String name;
     private Role role;
     private String word;
-    private boolean wordVisible;
+    //private boolean wordVisible;
 
     public Player(String name) {
         this.name = name;
-        wordVisible = false;
     }
 
     //getters
@@ -27,9 +26,10 @@ public class Player {
         return role;
     }
 
+    /*
     public boolean isWordVisible() {
         return wordVisible;
-    }
+    }*/
 
     public String getWord() {
         return word;
@@ -44,6 +44,7 @@ public class Player {
         this.word = word;
     }
 
+    /*
     public void seeWord() {
         this.wordVisible = true;
     }
@@ -51,4 +52,6 @@ public class Player {
     public void hideWord() {
         this.wordVisible = false;
     }
+
+     */
 }

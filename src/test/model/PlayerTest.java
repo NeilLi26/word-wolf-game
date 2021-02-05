@@ -23,12 +23,12 @@ class PlayerTest {
         assertEquals(testPlayer.getRole(), Role.MRWHITE);
     }
 
+
     @Test
     void setWordTest() {
-        assertFalse(testPlayer.isWordVisible());
-        testPlayer.seeWord();
-        assertTrue(testPlayer.isWordVisible());
-        testPlayer.hideWord();
-        assertFalse(testPlayer.isWordVisible());
+        testPlayer.setWord("TESTING");
+        assertEquals(testPlayer.getWord(), "TESTING");
+        testPlayer.setWord("another word");
+        assertEquals(testPlayer.getWord(), "another word");
     }
 }

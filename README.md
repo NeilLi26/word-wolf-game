@@ -10,7 +10,9 @@ the "undercover" or "wolf" is the only one who has their word. Players will take
 describing their word, attempting to find out who is the "undercover". While the "Undercover"
 tries to find out what the word is. However, no one knows if they are the undercover or the regulars. 
 There are also versions that include a role called "Mr. White", where they are not assigned any word,
-their win condition is to guess both words before they or the undercover are voted out.
+their win condition is to guess both words before they or the undercover are voted out. This is not meant
+as a complete recreation of the word wolf game, but rather a console that makes it simpler to coordinate a
+game of word wolf with friends.
 
 **Who will use it:**
 
