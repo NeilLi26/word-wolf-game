@@ -1,5 +1,5 @@
 package model;
 
 public enum Role {
-    MAJORITY,MINORITY, MRWHITE;
+    MAJORITY,MINORITY, MRWHITE, NOTHING_YET
 }

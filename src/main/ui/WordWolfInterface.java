@@ -15,7 +15,7 @@ public class WordWolfInterface {
     private List<WordPair> wordList;
 
     private enum MenuState {
-        MENU, PLAYER_EDIT, WORD_EDIT, IN_GAME;
+        MENU, PLAYER_EDIT, WORD_EDIT, IN_GAME
     }
 
     public WordWolfInterface() {
@@ -25,21 +25,21 @@ public class WordWolfInterface {
 
     //EFFECTS: runs the menu portion of the word wolf game
     private void runWordWolf() {
-        Boolean programRunning = true;
-        String command = null;
+        boolean programRunning = true;
 
         while (programRunning) {
             if (menuState == MenuState.MENU) {
                 displayMenu();
-                programRunning = processCommandMainMenu(command);
+                programRunning = processCommandMainMenu();
             } else if (menuState == MenuState.PLAYER_EDIT) {
                 displayPlayerOptions();
-                processCommandPlayer(command);
+                processCommandPlayer();
             } else if (menuState == MenuState.WORD_EDIT) {
                 displayWordListOptions();
-                processCommandWords(command);
+                processCommandWords();
             } else if (menuState == MenuState.IN_GAME) {
                 new GameInterface(players, wordList);
+                menuState = MenuState.MENU;
             }
         }
     }
@@ -47,32 +47,33 @@ public class WordWolfInterface {
     // MODIFIES: this
     // EFFECTS: processes user command when game state is MENU, and
     // return false if the player enters a four, and true otherwise
-    private boolean processCommandMainMenu(String command) {
-        command = input.next();
+    private boolean processCommandMainMenu() {
+        String command = input.next();
 
         if (command.equals("1")) {
             menuState = MenuState.PLAYER_EDIT;
         } else if (command.equals("2")) {
             menuState = MenuState.WORD_EDIT;
         } else if (command.equals("3")) {
-            menuState = MenuState.IN_GAME;
+            if (players.size() >= 3) {
+                menuState = MenuState.IN_GAME;
+            } else {
+                System.out.println("not enough players (need at least 3)");
+            }
         } else if (command.equals("4")) {
             System.out.println("quitting game");
+            return false;
         } else {
             System.out.println("Invalid input");
         }
 
-        if (command.equals("4")) {
-            return false;
-        } else {
-            return true;
-        }
+        return true;
     }
 
     // MODIFIES: this
     // EFFECTS: processes user command when game state is PLAYER
-    private void processCommandPlayer(String command) {
-        command = input.next();
+    private void processCommandPlayer() {
+        String command = input.next();
 
         if (command.equals("1")) {
             addingPlayer();
@@ -87,8 +88,8 @@ public class WordWolfInterface {
 
     // MODIFIES: this
     // EFFECTS: processes user command when game state is WORD
-    private void processCommandWords(String command) {
-        command = input.next();
+    private void processCommandWords() {
+        String command = input.next();
 
         if (command.equals("1")) {
             displayWordPairs();
@@ -129,21 +130,28 @@ public class WordWolfInterface {
     }
 
     //MODIFIES: this
-    //EFFECTS: adds a player into players and return true. If there are 10 players already, or if there is a player with
-    // the same name in the game, return false and do not add the new player
+    //EFFECTS: adds a player into players and return true. If the player wants to be named "continue", there are 10
+    // players already, or there is a player with the same name in the game, return false and do not add the new player
     public boolean addingPlayer() {
         System.out.println("What would you like to name this player?");
         String name = input.next();
 
-        if (players.size() >= 10) {
+        if (name.equals("continue") || name.equals("wolf") || name.equals("white") || name.equals("skip")) {
+            System.out.println("Nice try, but no game breaking for you today");
+            return false;
+        } else if (players.size() >= 10) {
             System.out.println("Player amount already at maximum");
             return false;
-        }
-
-        for (Player p: players) {
-            if (p.getName().equals(name)) {
-                System.out.println("Player already exists");
-                return false;
+        } else if (name.equals("savemetimeohgreatneil")) {
+            System.out.println("oh i shall save you time - neil");
+            initiateDefaultPlayers();
+            return true;
+        } else {
+            for (Player p : players) {
+                if (p.getName().equals(name)) {
+                    System.out.println("Player already exists");
+                    return false;
+                }
             }
         }
 
@@ -235,16 +243,18 @@ public class WordWolfInterface {
         makeDefaultWordlist(); //initiates word list
     }
 
-    //TODO
     //MODIFIES: this
-    //EFFECTS: check to see if the game has ended
-    public void checkState(WordWolfGame game) {
-        if (game.getVictor() == Role.MAJORITY) {
-            System.out.println("The majority has won!");
-        } else if (game.getVictor() == Role.MINORITY) {
-            System.out.println("The wolves have won!");
-        } else if (game.getVictor() == Role.MRWHITE) {
-            System.out.println("The Mr.White has won!");
-        }
+    //EFFECTS: cheat for testing, initiates default list of players
+    private void initiateDefaultPlayers() {
+        players.add(new Player("Amy"));
+        players.add(new Player("Bob"));
+        players.add(new Player("Cedric"));
+        players.add(new Player("Deborah"));
+        players.add(new Player("Evan"));
+        players.add(new Player("Fatima"));
+        players.add(new Player("Gordon"));
+        players.add(new Player("Haiti"));
+        players.add(new Player("Indigo"));
+        players.add(new Player("Jackey"));
     }
 }

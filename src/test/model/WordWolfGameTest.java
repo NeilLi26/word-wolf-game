@@ -12,8 +12,6 @@ public class WordWolfGameTest {
 
     private static String MINORITY_WORD = "MINOR";
     private static String MAJORITY_WORD = "MAJOR";
-    private static int MINORITY_NUMBER = 1;
-    private static int WHITE_NUMBER = 1;
 
     private WordWolfGame testGame;
     private List<Player> testPlayers;
@@ -26,18 +24,21 @@ public class WordWolfGameTest {
         testPlayers.add(new Player("Cedric"));
         testPlayers.add(new Player("Deborah"));
         testPlayers.add(new Player("Evan"));
+        testPlayers.add(new Player("Fatima"));
+        testPlayers.add(new Player("Gordon"));
+
 
         for (Player p: testPlayers) {
-            if (p.getName() == "Bob") {
+            if (p.getName().equals("Bob")) {
                 p.setRole(Role.MINORITY);
-            } else if (p.getName() == "Deborah") {
+            } else if (p.getName().equals("Deborah")) {
                 p.setRole(Role.MRWHITE);
             } else {
                 p.setRole(Role.MAJORITY);
             }
         }
 
-        testGame = new WordWolfGame(testPlayers, MINORITY_WORD, MAJORITY_WORD, MINORITY_NUMBER, WHITE_NUMBER);
+        testGame = new WordWolfGame(testPlayers, MINORITY_WORD, MAJORITY_WORD);
     }
 
     @Test
@@ -45,8 +46,10 @@ public class WordWolfGameTest {
         assertEquals(testPlayers.get(0).getWord(), testGame.getMajorityWord());
         assertEquals(testPlayers.get(1).getWord(), testGame.getMinorityWord());
         assertEquals(testPlayers.get(2).getWord(), testGame.getMajorityWord());
-        assertEquals(testPlayers.get(3).getWord(), "");
+        assertEquals(testPlayers.get(3).getWord(), "You are the Mr. White");
         assertEquals(testPlayers.get(4).getWord(), testGame.getMajorityWord());
+        assertEquals(testPlayers.get(5).getWord(), testGame.getMajorityWord());
+        assertEquals(testPlayers.get(6).getWord(), testGame.getMajorityWord());
     }
 
     @Test
@@ -63,30 +66,30 @@ public class WordWolfGameTest {
     void voteKickTest() {
         assertEquals(testGame.getRemainingWolfs(), 1);
         assertEquals(testGame.getRemainingWhites(), 1);
-        assertEquals(testGame.getPlayers().size(), 5);
+        assertEquals(testGame.getPlayers().size(), 7);
 
         assertTrue(testGame.kickPlayer("Amy"));
 
         assertEquals(testGame.getRemainingWolfs(), 1);
         assertEquals(testGame.getRemainingWhites(), 1);
-        assertEquals(testGame.getPlayers().size(), 4);
+        assertEquals(testGame.getPlayers().size(), 6);
 
         assertFalse(testGame.kickPlayer("Neil"));
 
         assertEquals(testGame.getRemainingWolfs(), 1);
         assertEquals(testGame.getRemainingWhites(), 1);
-        assertEquals(testGame.getPlayers().size(), 4);
+        assertEquals(testGame.getPlayers().size(), 6);
 
         assertTrue(testGame.kickPlayer("Bob"));
 
         assertEquals(testGame.getRemainingWolfs(), 0);
         assertEquals(testGame.getRemainingWhites(), 1);
-        assertEquals(testGame.getPlayers().size(), 3);
+        assertEquals(testGame.getPlayers().size(), 5);
 
         assertTrue(testGame.kickPlayer("Deborah"));
 
         assertEquals(testGame.getRemainingWolfs(), 0);
         assertEquals(testGame.getRemainingWhites(), 0);
-        assertEquals(testGame.getPlayers().size(), 2);
+        assertEquals(testGame.getPlayers().size(), 4);
     }
 }

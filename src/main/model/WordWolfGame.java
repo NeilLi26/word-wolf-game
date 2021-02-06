@@ -15,14 +15,11 @@ public class WordWolfGame {
     private int remainingWhites;
     private Role victor;
 
-    public WordWolfGame(List<Player> players, String minorityWord, String majorityWord,
-            int totalWolves, int totalWhites) {
+    public WordWolfGame(List<Player> players, String minorityWord, String majorityWord) {
         this.players = players;
         this.minorityWord = minorityWord;
         this.majorityWord = majorityWord;
-        this.remainingWolfs = totalWolves;
-        this.remainingWhites = totalWhites;
-
+        findRoleAmounts();
         assignWords();
     }
 
@@ -57,11 +54,25 @@ public class WordWolfGame {
     }
 
     //MODIFIES: this
+    //EFFECTS: find the number of players in each non majority role
+    private void findRoleAmounts() {
+        remainingWolfs = 0;
+        remainingWhites = 0;
+        for (Player p: players) {
+            if (p.getRole().equals(Role.MINORITY)) {
+                remainingWolfs++;
+            } else if (p.getRole().equals(Role.MRWHITE)) {
+                remainingWhites++;
+            }
+        }
+    }
+
+    //MODIFIES: this
     //EFFECTS: gives the appropriate words to all the players
     private void assignWords() {
         for (Player p: players) {
             if (p.getRole() == Role.MRWHITE) {
-                p.setWord("");
+                p.setWord("You are the Mr. White");
             } else if (p.getRole() == Role.MINORITY) {
                 p.setWord(minorityWord);
             } else if (p.getRole() == Role.MAJORITY) {
@@ -75,7 +86,7 @@ public class WordWolfGame {
     //          else return false
     public Boolean kickPlayer(String name) {
         for (Player p: players) {
-            if (p.getName() == name) {
+            if (p.getName().equals(name)) {
                 players.remove(p);
                 System.out.println(name + " has been voted out");
 

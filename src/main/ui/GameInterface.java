@@ -1,60 +1,155 @@
 package ui;
 
 import model.Player;
+import model.Role;
 import model.WordPair;
 import model.WordWolfGame;
 
 import java.util.List;
+import java.util.Scanner;
+import java.util.Random;
 
+/*
+the interface of a single round of the word wolf game
+ */
 public class GameInterface {
     private static final int PRINT_NAME_SPACING = 25;
 
-    private List<Player> players;
-    private List<WordPair> wordList;
+    private Scanner input;
     private GameState gameState;
     private WordWolfGame currentGame;
+    private Random rand = new Random();
 
     private enum GameState {
         SHOWING_WORDS, DESCRIBING_WORD, PLAYERS_VOTING, END
     }
 
     public GameInterface(List<Player> players, List<WordPair> wordList) {
-        this.players = players;
-        this.wordList = wordList;
+        initGame(players, wordList);
         runCurrentGame();
     }
 
-    //EFFECTS: runs a single round of the word wolf game
-    public void runCurrentGame() {
-        Boolean gameRunning = true;
-        String command = null;
+    //MODIFIES: this
+    //EFFECTS: choose the right amount of players for each of the minority roles given the current number of players,
+    // and assign roles to them accordingly
+    private List<Player> assignRoles(List<Player> players) {
+        int totalWolves;
+        int totalWhites;
 
-        while (gameRunning) {
-            if (gameState == GameState.SHOWING_WORDS) {
-                displayPLayerWordMenu();
-            } else if (gameState == GameState.DESCRIBING_WORD) {
-                displayDescribingPlayers();
-            } else if (gameState == GameState.PLAYERS_VOTING) {
-                displayVotingMenu();
-            } else if (gameState == GameState.END) {
-                displayEndOfRound();
+        if (players.size() >= 9) {
+            totalWolves = 2;
+        } else {
+            totalWolves = 1;
+        }
+
+        if (players.size() >= 6) {
+            totalWhites = 1;
+        } else {
+            totalWhites = 0;
+        }
+
+        return assignRoleGivenRoleQuantity(totalWolves, totalWhites, players);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: assign roles to players
+    private List<Player> assignRoleGivenRoleQuantity(int totalWolves, int totalWhites, List<Player> players) {
+        assignGivenRoleToGivenAmountOfPeople(Role.MINORITY, totalWolves, players);
+        assignGivenRoleToGivenAmountOfPeople(Role.MRWHITE, totalWhites, players);
+
+        for (Player p: players) {
+            if (p.getRole().equals(Role.NOTHING_YET)) {
+                p.setRole(Role.MAJORITY);
+            }
+        }
+
+        return players;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: randomly assign the given role to the given amount of people
+    private void assignGivenRoleToGivenAmountOfPeople(Role role, int desiredAmount, List<Player> players) {
+        int currentAmount = 0;
+        int random;
+        Player playerAtRand;
+
+        while (currentAmount < desiredAmount) {
+            random = rand.nextInt(players.size());
+            playerAtRand = players.get(random);
+
+            if (playerAtRand.getRole().equals(Role.NOTHING_YET)) {
+                playerAtRand.setRole(role);
+                currentAmount++;
             }
         }
     }
 
-    //TODO: 1
+    //MODIFIES: this
+    //EFFECTS: chooses the Minority and Majority word pair randomly from a given wordlist
+    private WordPair chooseWordPair(List<WordPair> wordList) {
+        int index = rand.nextInt(wordList.size());
+
+        WordPair usedWordPair = wordList.get(index);
+        String firstWord = usedWordPair.getFirstWord();
+        String secondWord = usedWordPair.getSecondWord();
+
+        int random = rand.nextInt(2);
+
+        if (random == 0) {
+            return new WordPair(firstWord, secondWord);
+        } else {
+            return new WordPair(secondWord, firstWord);
+        }
+    }
+
+    //EFFECTS: runs a single round of the word wolf game
+    public void runCurrentGame() {
+        boolean gameRunning = true;
+
+        while (gameRunning) {
+            if (gameState == GameState.SHOWING_WORDS) {
+                displayPLayerWordMenu();
+                showPlayerWord();
+            } else if (gameState == GameState.DESCRIBING_WORD) {
+                displayDescribingPlayers();
+            } else if (gameState == GameState.PLAYERS_VOTING) {
+                displayVotingMenu();
+                boolean continueGame = processVote();
+                if (continueGame) {
+                    gameState = GameState.DESCRIBING_WORD;
+                } else {
+                    gameState = GameState.END;
+                }
+            } else if (gameState == GameState.END) {
+                displayEndOfRound();
+                gameRunning = false;
+            }
+        }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: assigns the roles randomly to players, and then assign words of a given wordpair accordingly
+    public void initGame(List<Player> players, List<WordPair> wordList) {
+        input = new Scanner(System.in);
+        List<Player> assignedPlayers = assignRoles(players);
+        WordPair majorMinorPair = chooseWordPair(wordList);//the first one will be the major word, second one the minor
+        currentGame = new WordWolfGame(assignedPlayers, majorMinorPair.getFirstWord(), majorMinorPair.getSecondWord());
+        gameState = GameState.SHOWING_WORDS;
+    }
+
     //MODIFIES: this
     //EFFECTS: display the menu for when the players get to see their words
     public void displayPLayerWordMenu() {
         System.out.println("Who's word would you like to see?");
         displayPlayers();
+        System.out.println("Enter continue to start the game");
     }
 
     //EFFECTS: prints out the players, with two on each row
     public void displayPlayers() {
         int counter = 0;
 
-        for (Player p: players) {
+        for (Player p: currentGame.getPlayers()) {
             spaceNames(counter, p);
             counter++;
         }
@@ -78,23 +173,163 @@ public class GameInterface {
         }
     }
 
-    //TODO: 2
+    //EFFECTS: displays the player whos name of given name, and return true if
+    // a player of given name is found, return false otherwise
+    public boolean showPlayerWord() {
+        String name = input.next();
+
+        if (name.equals("continue")) {
+            gameState = GameState.DESCRIBING_WORD;
+            return true;
+        }
+
+        for (Player p: currentGame.getPlayers()) {
+            if (p.getName().equals(name)) {
+                System.out.println("Your word is:" + p.getWord());
+
+                String command;
+                System.out.println("Enter anything to continue:");
+                command = input.next();
+
+                for (int x = 0; x < 20; x++) {
+                    System.out.println();
+                }
+                return true;
+            }
+        }
+
+        System.out.println("There is no player with such a name");
+        return false;
+    }
+
     //MODIFIES: this
     //EFFECTS: display the players who will be describing their word
-    public void displayDescribingPlayers() {
+    private void displayDescribingPlayers() {
+        String command;
 
+        for (Player p: currentGame.getPlayers()) {
+            System.out.println(p.getName() + "'s turn to describe their word:");
+
+            do {
+                System.out.println("enter continue to go proceed to next player");
+                command = input.next();
+            } while (!command.equals("continue"));
+
+            for (int x = 0; x < 10; x++) {
+                System.out.println();
+            }
+        }
+
+        System.out.println("everyone has had their turn");
+        gameState = GameState.PLAYERS_VOTING;
     }
 
-    //TODO: 3
     //MODIFIES: this
     //EFFECTS: display the voting menu for the players
-    public boolean displayVotingMenu() {
-        return true;
+    private void displayVotingMenu() {
+        System.out.println("Vote for a player, skip, wolves guess word, or Mr. White guess words:");
+        System.out.println("Remaining Wolves: " + currentGame.getRemainingWolfs());
+        if (currentGame.getRemainingWhites() > 0) {
+            System.out.println("The mr. White is still present");
+        }
+        displayPlayers();
+        System.out.println("Enter skip to skip this round of voting");
+        System.out.println("Enter wolf for wolf guess word");
+        System.out.println("Enter white for white guess word");
     }
 
-    //TODO: 4
+    //EFFECTS: processes the vote, return true if there is no victor decided after this stage, and false otherwise
+    private boolean processVote() {
+        String vote = input.next();
+
+        if (vote.equals("skip")) {
+            System.out.println("voting round skipped");
+        } else if (vote.equals("wolf")) {
+            return wolfGuess();
+        } else if (vote.equals("white")) {
+            System.out.println();
+        } else {
+            currentGame.kickPlayer(vote);
+        }
+
+        return false;
+    }
+
+    //EFFECTS: wolf player makes a guess as to the majority word, return true if correct, false otherwise
+    private boolean wolfGuess() {
+        String guess;
+        String guesser;
+
+        System.out.println("Who is making the guess?");
+        guesser = input.next();
+        System.out.println("What do you think is the word?");
+        guess = input.next();
+
+        return processWolfGuess(guesser, guess);
+    }
+
+    //EFFECTS: processes the guess of the wolf
+    private boolean processWolfGuess(String guesser, String guess) {
+        if (guess.equals(currentGame.getMajorityWord())) {
+            System.out.println("That is the correct word!");
+            currentGame.setVictor(Role.MINORITY);
+            return false;
+        } else {
+            return processGuessWrong();
+        }
+    }
+
+    //EFFECTS: displays the console for the Mr white to make a guess, and asks for their guesses
+    private boolean whiteGuess() {
+        String guessMajor;
+        String guessMinor;
+        String guesser;
+
+        System.out.println("Who is making the guess?");
+        guesser = input.next();
+        System.out.println("What do you think is the word for the Majority?");
+        guessMajor = input.next();
+        System.out.println("What do you think is the word for the Minority?");
+        guessMinor = input.next();
+
+        return processWhiteGuess(guesser, guessMajor, guessMinor);
+    }
+
+    //EFFECTS: processes the guess of the Mr White
+    private boolean processWhiteGuess(String guesser, String guessMajor, String guessMinor) {
+        if (guessMajor.equals(currentGame.getMajorityWord()) && guessMinor.equals(currentGame.getMinorityWord())) {
+            System.out.println("Those are the correct words!");
+            currentGame.setVictor(Role.MRWHITE);
+            return false;
+        } else {
+            return processGuessWrong();
+        }
+    }
+
+    //EFFECTS: processes the guess if the guess was wrong
+    private boolean processGuessWrong() {
+        System.out.println("That was not correct, but does everyone accept this answer?");
+        System.out.println("Enter yes for accept, and no for not accept");
+        String accept = input.next();
+
+        if (accept.equals("yes")) {
+            System.out.println("The guess has been accepted");
+            return false;
+        } else {
+            System.out.println("The guess has not been accepted");
+            return true;
+        }
+    }
+
     //EFFECTS: displays the victor and ends the game
-    public void displayEndOfRound() {
+    private void displayEndOfRound() {
+        if (currentGame.getVictor().equals(Role.MAJORITY)) {
+            System.out.println("The Majority has won!!!");
+        } else if  (currentGame.getVictor().equals(Role.MINORITY)) {
+            System.out.println("The Wolfs have won!!!");
+        } else if  (currentGame.getVictor().equals(Role.MRWHITE)) {
+            System.out.println("Mr White has won!!!");
+        }
 
     }
 }

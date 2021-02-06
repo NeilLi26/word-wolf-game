@@ -15,6 +15,7 @@ class PlayerTest {
 
     @Test
     void setRoleTest() {
+        assertEquals(testPlayer.getRole(), Role.NOTHING_YET);
         testPlayer.setRole(Role.MAJORITY);
         assertEquals(testPlayer.getRole(), Role.MAJORITY);
         testPlayer.setRole(Role.MINORITY);
