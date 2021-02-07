@@ -132,7 +132,7 @@ public class WordWolfInterface {
     //MODIFIES: this
     //EFFECTS: adds a player into players and return true. If the player wants to be named "continue", there are 10
     // players already, or there is a player with the same name in the game, return false and do not add the new player
-    public boolean addingPlayer() {
+    private boolean addingPlayer() {
         System.out.println("What would you like to name this player?");
         String name = input.next();
 
@@ -162,7 +162,7 @@ public class WordWolfInterface {
 
     //MODIFIES: this
     //EFFECTS: removes a player from players and return true, if not found, return false
-    public boolean removePlayer() {
+    private boolean removePlayer() {
         System.out.println("Which player would you like to remove?");
         String name = input.next();
 
@@ -179,7 +179,7 @@ public class WordWolfInterface {
     }
 
     //EFFECTS: prints out all the word pairs in the wordlist
-    public void displayWordPairs() {
+    private void displayWordPairs() {
         System.out.println("Words:");
         for (WordPair wp: wordList) {
             System.out.println(wp.getFirstWord() + " and " + wp.getSecondWord());
@@ -187,7 +187,7 @@ public class WordWolfInterface {
     }
 
     //EFFECTS: prints out the players, with two on each row
-    public void displayPlayers() {
+    private void displayPlayers() {
         int counter = 0;
 
         for (Player p: players) {
@@ -201,7 +201,7 @@ public class WordWolfInterface {
     }
 
     //EFFECTS: prints the names with proper spacing and alignment
-    public void spaceNames(int counter, Player p) {
+    private void spaceNames(int counter, Player p) {
         if (counter % 2 == 0) {
             System.out.print(p.getName());
 
@@ -214,7 +214,9 @@ public class WordWolfInterface {
         }
     }
 
-    public void addWordPairs() {
+    //MODIFIES: this
+    //EFFECTS: adds a pair of words to the wordlist
+    private void addWordPairs() {
         System.out.println("What is the first word that you would like to add?");
         String firstWord = input.next();
         System.out.println("What is the second word that you would like to add?");
@@ -224,7 +226,9 @@ public class WordWolfInterface {
         System.out.println("Word pair added");
     }
 
-    public void makeDefaultWordlist() {
+    //MODIFIES: this
+    //EFFECTS: adds the five default word pairs to the wordlist
+    private void makeDefaultWordlist() {
         wordList = new ArrayList<>();
         wordList.add(new WordPair("Ocean", "Pool"));
         wordList.add(new WordPair("Tuxedo", "Military Uniform"));
