@@ -308,7 +308,9 @@ public class GameInterface {
             currentGame.kickPlayer(vote);
         }
 
-        if (currentGame.getRemainingWhites() + currentGame.getRemainingWolfs() >= currentGame.getPlayers().size() / 2) {
+        double remainingMinorities = currentGame.getRemainingWhites() + currentGame.getRemainingWolfs();
+        double remainingTotalPlayers = currentGame.getPlayers().size();
+        if (remainingMinorities >= remainingTotalPlayers / 2) {
             currentGame.setVictor(Role.MINORITY);
             return false;
         } else if (currentGame.getRemainingWolfs() == 0 && currentGame.getRemainingWhites() == 0) {
@@ -325,7 +327,9 @@ public class GameInterface {
         String guesser;
 
         System.out.println("Who is making the guess?");
-        guesser = input.next();
+        do {
+            guesser = input.next();
+        } while (!validGuesser(guesser));
         System.out.println("What do you think is the word?");
         guess = input.next();
 
@@ -339,7 +343,7 @@ public class GameInterface {
             currentGame.setVictor(Role.MINORITY);
             return false;
         } else {
-            return processGuessWrong(guesser);
+            return processGuessWrong(guesser, Role.MINORITY);
         }
     }
 
@@ -350,7 +354,9 @@ public class GameInterface {
         String guesser;
 
         System.out.println("Who is making the guess?");
-        guesser = input.next();
+        do {
+            guesser = input.next();
+        } while (!validGuesser(guesser));
         System.out.println("What do you think is the word for the Majority?");
         guessMajor = input.next();
         System.out.println("What do you think is the word for the Minority?");
@@ -366,24 +372,37 @@ public class GameInterface {
             currentGame.setVictor(Role.MRWHITE);
             return false;
         } else {
-            return processGuessWrong(guesser);
+            return processGuessWrong(guesser, Role.MRWHITE);
         }
     }
 
     //EFFECTS: processes the guess if the guess was wrong
-    private boolean processGuessWrong(String player) {
+    private boolean processGuessWrong(String player, Role role) {
         System.out.println("That was not correct, but does everyone accept this answer?");
         System.out.println("Enter yes for accept, and no for not accept");
         String accept = input.next();
 
         if (accept.equals("yes")) {
             System.out.println("The guess has been accepted");
-            currentGame.kickPlayer(player);
+            currentGame.setVictor(role);
             return false;
         } else {
             System.out.println("The guess has not been accepted");
+            currentGame.kickPlayer(player);
             return true;
         }
+    }
+
+    //EFFECTS: returns true if the guesser is one of the players, and false otherwise
+    private boolean validGuesser(String guesser) {
+        for (Player p: currentGame.getPlayers()) {
+            if (p.getName().equals(guesser)) {
+                return true;
+            }
+        }
+
+        System.out.println("invalid name");
+        return false;
     }
 
     //EFFECTS: displays the victor and ends the game
