@@ -34,5 +34,5 @@ were also lacking. This is why I want to make an improved version of this game.
 - As a user, I would like to add my own custom word pairs to the default words
 - As a user, I would like to add players to the game and customize their names
 - As a user, I would like to vote out players who have been deemed suspicious by the other players
-- As a user, I would like to have specified numbers of players assigned as the "wolf" or "regulars"
+- As a user, I would like to have predetermined numbers of players assigned as the "wolf" or "regulars"
 - As a user, I would like a phase at the beginning where individual players could see their own word

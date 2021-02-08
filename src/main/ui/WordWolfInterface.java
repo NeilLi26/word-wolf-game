@@ -50,22 +50,28 @@ public class WordWolfInterface {
     private boolean processCommandMainMenu() {
         String command = input.next();
 
-        if (command.equals("1")) {
-            menuState = MenuState.PLAYER_EDIT;
-        } else if (command.equals("2")) {
-            menuState = MenuState.WORD_EDIT;
-        } else if (command.equals("3")) {
-            if (players.size() >= 3) {
-                menuState = MenuState.IN_GAME;
-            } else {
-                System.out.println("not enough players (need at least 3)");
-            }
-        } else if (command.equals("4")) {
-            System.out.println("quitting game");
-            return false;
-        } else {
-            System.out.println("Invalid input");
+        switch (command) {
+            case "1":
+                menuState = MenuState.PLAYER_EDIT;
+                break;
+            case "2":
+                menuState = MenuState.WORD_EDIT;
+                break;
+            case "3":
+                if (players.size() >= 3) {
+                    menuState = MenuState.IN_GAME;
+                } else {
+                    System.out.println("not enough players (need at least 3)");
+                }
+                break;
+            case "4":
+                System.out.println("quitting game");
+                return false;
+            default:
+                System.out.println("Invalid input");
+                break;
         }
+
 
         return true;
     }
@@ -75,14 +81,19 @@ public class WordWolfInterface {
     private void processCommandPlayer() {
         String command = input.next();
 
-        if (command.equals("1")) {
-            addingPlayer();
-        } else if (command.equals("2")) {
-            removePlayer();
-        } else if (command.equals("3")) {
-            menuState = MenuState.MENU;
-        } else {
-            System.out.println("Invalid input");
+        switch (command) {
+            case "1":
+                addingPlayer();
+                break;
+            case "2":
+                removePlayer();
+                break;
+            case "3":
+                menuState = MenuState.MENU;
+                break;
+            default:
+                System.out.println("Invalid input");
+                break;
         }
     }
 
@@ -91,14 +102,19 @@ public class WordWolfInterface {
     private void processCommandWords() {
         String command = input.next();
 
-        if (command.equals("1")) {
-            displayWordPairs();
-        } else if (command.equals("2")) {
-            addWordPairs();
-        } else if (command.equals("3")) {
-            menuState = MenuState.MENU;
-        } else {
-            System.out.println("Invalid input");
+        switch (command) {
+            case "1":
+                displayWordPairs();
+                break;
+            case "2":
+                addWordPairs();
+                break;
+            case "3":
+                menuState = MenuState.MENU;
+                break;
+            default:
+                System.out.println("Invalid input");
+                break;
         }
     }
 

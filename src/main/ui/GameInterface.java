@@ -19,7 +19,7 @@ public class GameInterface {
     private Scanner input;
     private GameState gameState;
     private WordWolfGame currentGame;
-    private Random rand = new Random();
+    private Random rand;
 
     private enum GameState {
         SHOWING_WORDS, DESCRIBING_WORD, PLAYERS_VOTING, END
@@ -131,11 +131,12 @@ public class GameInterface {
     //MODIFIES: this
     //EFFECTS: assigns the roles randomly to players, and then assign words of a given wordpair accordingly
     private void initGame(List<Player> players, List<WordPair> wordList) {
-        input = new Scanner(System.in);
+        this.rand = new Random();
+        this.input = new Scanner(System.in);
         List<Player> assignedPlayers = assignRoles(copyPlayers(players));
         WordPair majorMinorPair = chooseWordPair(wordList);//the first one will be the major word, second one the minor
         currentGame = new WordWolfGame(assignedPlayers, majorMinorPair.getFirstWord(), majorMinorPair.getSecondWord());
-        gameState = GameState.SHOWING_WORDS;
+        this.gameState = GameState.SHOWING_WORDS;
     }
 
     //EFFECTS: creates a copy of the player list
@@ -298,14 +299,17 @@ public class GameInterface {
     private boolean processVote() {
         String vote = input.next();
 
-        if (vote.equals("skip")) {
-            System.out.println("voting round skipped");
-        } else if (vote.equals("wolf")) {
-            return wolfGuess();
-        } else if (vote.equals("white")) {
-            return whiteGuess();
-        } else {
-            currentGame.kickPlayer(vote);
+        switch (vote) {
+            case "skip":
+                System.out.println("voting round skipped");
+                break;
+            case "wolf":
+                return wolfGuess();
+            case "white":
+                return whiteGuess();
+            default:
+                currentGame.kickPlayer(vote);
+                break;
         }
 
         double remainingMinorities = currentGame.getRemainingWhites() + currentGame.getRemainingWolfs();
