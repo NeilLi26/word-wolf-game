@@ -75,7 +75,7 @@ public class WordWolfGame {
                 p.setWord("You are the Mr. White");
             } else if (p.getRole() == Role.MINORITY) {
                 p.setWord(minorityWord);
-            } else if (p.getRole() == Role.MAJORITY) {
+            } else {
                 p.setWord(majorityWord);
             }
         }

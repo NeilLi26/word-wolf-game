@@ -5,6 +5,9 @@ import model.Role;
 import model.WordPair;
 import model.WordWolfGame;
 
+import javax.sound.midi.Instrument;
+import javax.sound.midi.MidiChannel;
+import javax.sound.midi.Synthesizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -200,7 +203,6 @@ public class GameInterface {
         }
     }
 
-
     //EFFECTS: prints the words with proper spacing and alignment
     private void spaceWords(int counter, Player p) {
         if (counter % 2 == 0) {
@@ -241,6 +243,9 @@ public class GameInterface {
                 String command;
                 System.out.println("Enter anything to continue:");
                 command = input.next();
+                //TODO
+                //playSound();
+
                 for (int x = 0; x < 20; x++) {
                     System.out.println();
                 }
@@ -250,6 +255,16 @@ public class GameInterface {
         System.out.println("There is no player with such a name");
         return false;
     }
+
+    /*
+    //TODO
+    //EFFECTS: plays a sound to indicate that the player has seen their word
+    private void playSound() {
+        MidiChannel midiChannel = new Mid;
+        midiChannel.noteOn(note, velocity);
+    }
+
+     */
 
     //MODIFIES: this
     //EFFECTS: display the players who will be describing their word, return true when the describing has been completed
