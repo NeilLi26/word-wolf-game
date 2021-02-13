@@ -14,7 +14,10 @@ import java.util.Random;
 the interface of a single round of the word wolf game
  */
 public class GameInterface {
-    private static final int PRINT_NAME_SPACING = 25;
+    private static final int PRINT_NAME_SPACING = 10;
+    private static final String SKIP_VOTE_COMMAND = "skip";
+    private static final String WOLF_GUESS_COMMAND = "wolf";
+    private static final String WHITE_GUESS_COMMAND = "white";
 
     private Scanner input;
     private GameState gameState;
@@ -271,7 +274,7 @@ public class GameInterface {
 
             } while (!command.equals("continue"));
 
-            for (int x = 0; x < 10; x++) {
+            for (int x = 0; x < PRINT_NAME_SPACING; x++) {
                 System.out.println();
             }
         }
@@ -300,12 +303,12 @@ public class GameInterface {
         String vote = input.next();
 
         switch (vote) {
-            case "skip":
+            case SKIP_VOTE_COMMAND:
                 System.out.println("voting round skipped");
                 break;
-            case "wolf":
+            case WOLF_GUESS_COMMAND:
                 return wolfGuess();
-            case "white":
+            case WHITE_GUESS_COMMAND:
                 return whiteGuess();
             default:
                 currentGame.kickPlayer(vote);

@@ -7,7 +7,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class WordWolfInterface {
-    private static final int PRINT_NAME_SPACING = 25;
+    private static final int PRINT_NAME_SPACING = 10;
+    private static final int MAX_PLAYERS_SIZE = 10;
+    private static final String EDIT_PLAYER_LIST_COMMAND = "1";
+    private static final String EDIT_WORD_LIST_COMMAND = "2";
+    private static final String START_GAME_COMMAND = "3";
+    private static final String QUIT_COMMAND = "4";
+    private static final String ADD_PLAYER_COMMAND = "1";
+    private static final String REMOVE_PLAYER_COMMAND = "2";
+    private static final String RETURN_TO_MENU_COMMAND = "3";
+    private static final String DISPLAY_WORDS_COMMAND = "1";
+    private static final String ADD_WORDS_COMMAND = "2";
 
     private Scanner input;
     private MenuState menuState;
@@ -51,20 +61,20 @@ public class WordWolfInterface {
         String command = input.next();
 
         switch (command) {
-            case "1":
+            case EDIT_PLAYER_LIST_COMMAND:
                 menuState = MenuState.PLAYER_EDIT;
                 break;
-            case "2":
+            case EDIT_WORD_LIST_COMMAND:
                 menuState = MenuState.WORD_EDIT;
                 break;
-            case "3":
+            case START_GAME_COMMAND:
                 if (players.size() >= 3) {
                     menuState = MenuState.IN_GAME;
                 } else {
                     System.out.println("not enough players (need at least 3)");
                 }
                 break;
-            case "4":
+            case QUIT_COMMAND:
                 System.out.println("quitting game");
                 return false;
             default:
@@ -82,13 +92,13 @@ public class WordWolfInterface {
         String command = input.next();
 
         switch (command) {
-            case "1":
+            case ADD_PLAYER_COMMAND:
                 addingPlayer();
                 break;
-            case "2":
+            case REMOVE_PLAYER_COMMAND:
                 removePlayer();
                 break;
-            case "3":
+            case RETURN_TO_MENU_COMMAND:
                 menuState = MenuState.MENU;
                 break;
             default:
@@ -103,13 +113,13 @@ public class WordWolfInterface {
         String command = input.next();
 
         switch (command) {
-            case "1":
+            case DISPLAY_WORDS_COMMAND:
                 displayWordPairs();
                 break;
-            case "2":
+            case ADD_WORDS_COMMAND:
                 addWordPairs();
                 break;
-            case "3":
+            case RETURN_TO_MENU_COMMAND:
                 menuState = MenuState.MENU;
                 break;
             default:
@@ -155,7 +165,7 @@ public class WordWolfInterface {
         if (name.equals("continue") || name.equals("wolf") || name.equals("white") || name.equals("skip")) {
             System.out.println("Nice try, but no game breaking for you today");
             return false;
-        } else if (players.size() >= 10) {
+        } else if (players.size() >= MAX_PLAYERS_SIZE) {
             System.out.println("Player amount already at maximum");
             return false;
         } else if (name.equals("savemetimeohgreatneil")) {
