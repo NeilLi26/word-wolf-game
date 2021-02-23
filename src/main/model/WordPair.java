@@ -1,9 +1,12 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 /*
 A pair of similar words
  */
-public class WordPair {
+public class WordPair implements Writable {
     private String firstWord;
     private String secondWord;
 
@@ -19,5 +22,14 @@ public class WordPair {
 
     public String getSecondWord() {
         return secondWord;
+    }
+
+    //TODO
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("firstWord", firstWord);
+        json.put("secondWord", secondWord);
+        return json;
     }
 }
