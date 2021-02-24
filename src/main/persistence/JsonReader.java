@@ -52,13 +52,13 @@ public class JsonReader {
         JSONArray jsonArray = jsonObject.getJSONArray("wordPairs");
         for (Object json : jsonArray) {
             JSONObject nextWordPair = (JSONObject) json;
-            addThingy(wordPairList, nextWordPair);
+            addWordPair(wordPairList, nextWordPair);
         }
     }
 
     // MODIFIES: wr
     // EFFECTS: parses thingy from JSON object and adds it to workroom
-    private void addThingy(List<WordPair> wordPairList, JSONObject jsonObject) {
+    private void addWordPair(List<WordPair> wordPairList, JSONObject jsonObject) {
         String firstWord = jsonObject.getString("firstWord");
         String secondWord = jsonObject.getString("secondWord");
         WordPair wordPair = new WordPair(firstWord, secondWord);

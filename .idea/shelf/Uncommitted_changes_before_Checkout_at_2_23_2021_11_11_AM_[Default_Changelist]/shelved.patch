@@ -1,0 +1,147 @@
+Index: src/main/ui/WordWolfInterface.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ui;\r\n\r\nimport model.*;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Scanner;\r\n\r\npublic class WordWolfInterface {\r\n    private static final int PRINT_NAME_SPACING = 10;\r\n    private static final int MAX_PLAYERS_SIZE = 10;\r\n    private static final String EDIT_PLAYER_LIST_COMMAND = \"1\";\r\n    private static final String EDIT_WORD_LIST_COMMAND = \"2\";\r\n    private static final String START_GAME_COMMAND = \"3\";\r\n    private static final String QUIT_COMMAND = \"4\";\r\n    private static final String ADD_PLAYER_COMMAND = \"1\";\r\n    private static final String REMOVE_PLAYER_COMMAND = \"2\";\r\n    private static final String RETURN_TO_MENU_COMMAND = \"3\";\r\n    private static final String DISPLAY_WORDS_COMMAND = \"1\";\r\n    private static final String ADD_WORDS_COMMAND = \"2\";\r\n\r\n    private Scanner input;\r\n    private MenuState menuState;\r\n    private List<Player> players;\r\n    private List<WordPair> wordList;\r\n\r\n    private enum MenuState {\r\n        MENU, PLAYER_EDIT, WORD_EDIT, IN_GAME\r\n    }\r\n\r\n    public WordWolfInterface() {\r\n        initValues();\r\n        runWordWolf();\r\n    }\r\n\r\n    //EFFECTS: runs the menu portion of the word wolf game\r\n    private void runWordWolf() {\r\n        boolean programRunning = true;\r\n\r\n        while (programRunning) {\r\n            if (menuState == MenuState.MENU) {\r\n                displayMenu();\r\n                programRunning = processCommandMainMenu();\r\n            } else if (menuState == MenuState.PLAYER_EDIT) {\r\n                displayPlayerOptions();\r\n                processCommandPlayer();\r\n            } else if (menuState == MenuState.WORD_EDIT) {\r\n                displayWordListOptions();\r\n                processCommandWords();\r\n            } else if (menuState == MenuState.IN_GAME) {\r\n                new GameInterface(players, wordList);\r\n                menuState = MenuState.MENU;\r\n            }\r\n        }\r\n    }\r\n\r\n    // MODIFIES: this\r\n    // EFFECTS: processes user command when game state is MENU, and\r\n    // return false if the player enters a four, and true otherwise\r\n    private boolean processCommandMainMenu() {\r\n        String command = input.next();\r\n\r\n        switch (command) {\r\n            case EDIT_PLAYER_LIST_COMMAND:\r\n                menuState = MenuState.PLAYER_EDIT;\r\n                break;\r\n            case EDIT_WORD_LIST_COMMAND:\r\n                menuState = MenuState.WORD_EDIT;\r\n                break;\r\n            case START_GAME_COMMAND:\r\n                if (players.size() >= 3) {\r\n                    menuState = MenuState.IN_GAME;\r\n                } else {\r\n                    System.out.println(\"not enough players (need at least 3)\");\r\n                }\r\n                break;\r\n            case QUIT_COMMAND:\r\n                System.out.println(\"quitting game\");\r\n                return false;\r\n            default:\r\n                System.out.println(\"Invalid input\");\r\n                break;\r\n        }\r\n\r\n\r\n        return true;\r\n    }\r\n\r\n    // MODIFIES: this\r\n    // EFFECTS: processes user command when game state is PLAYER\r\n    private void processCommandPlayer() {\r\n        String command = input.next();\r\n\r\n        switch (command) {\r\n            case ADD_PLAYER_COMMAND:\r\n                addingPlayer();\r\n                break;\r\n            case REMOVE_PLAYER_COMMAND:\r\n                removePlayer();\r\n                break;\r\n            case RETURN_TO_MENU_COMMAND:\r\n                menuState = MenuState.MENU;\r\n                break;\r\n            default:\r\n                System.out.println(\"Invalid input\");\r\n                break;\r\n        }\r\n    }\r\n\r\n    // MODIFIES: this\r\n    // EFFECTS: processes user command when game state is WORD\r\n    private void processCommandWords() {\r\n        String command = input.next();\r\n\r\n        switch (command) {\r\n            case DISPLAY_WORDS_COMMAND:\r\n                displayWordPairs();\r\n                break;\r\n            case ADD_WORDS_COMMAND:\r\n                addWordPairs();\r\n                break;\r\n            case RETURN_TO_MENU_COMMAND:\r\n                menuState = MenuState.MENU;\r\n                break;\r\n            default:\r\n                System.out.println(\"Invalid input\");\r\n                break;\r\n        }\r\n    }\r\n\r\n    //EFFECTS: prints out the menu options\r\n    private void displayMenu() {\r\n        System.out.println(\"Welcome to Neil's Word Wolf game!\");\r\n        System.out.println(\"1: Add/Remove players\");\r\n        System.out.println(\"2: Add words\");\r\n        System.out.println(\"3: Start game\");\r\n        System.out.println(\"4: Exit\");\r\n    }\r\n\r\n    //EFFECTS: prints out the players in the game and the options\r\n    private void displayPlayerOptions() {\r\n        System.out.println(\"Current players:\");\r\n\r\n        displayPlayers();\r\n\r\n        System.out.println(\"1. Add player\");\r\n        System.out.println(\"2. Remove Player\");\r\n        System.out.println(\"3. Go back\");\r\n    }\r\n\r\n    //EFFECTS: prints out the options for the wordlist\r\n    private void displayWordListOptions() {\r\n        System.out.println(\"1. Display Word Pairs\");\r\n        System.out.println(\"2. Add word pairs\");\r\n        System.out.println(\"3. Go back\");\r\n    }\r\n\r\n    //MODIFIES: this\r\n    //EFFECTS: adds a player into players and return true. If the player wants to be named \"continue\", there are 10\r\n    // players already, or there is a player with the same name in the game, return false and do not add the new player\r\n    private boolean addingPlayer() {\r\n        System.out.println(\"What would you like to name this player?\");\r\n        String name = input.next();\r\n\r\n        if (name.equals(\"continue\") || name.equals(\"wolf\") || name.equals(\"white\") || name.equals(\"skip\")) {\r\n            System.out.println(\"Nice try, but no game breaking for you today\");\r\n            return false;\r\n        } else if (players.size() >= MAX_PLAYERS_SIZE) {\r\n            System.out.println(\"Player amount already at maximum\");\r\n            return false;\r\n        } else if (name.equals(\"savemetimeohgreatneil\")) {\r\n            System.out.println(\"oh i shall save you time - neil\");\r\n            initiateDefaultPlayers();\r\n            return true;\r\n        } else {\r\n            for (Player p : players) {\r\n                if (p.getName().equals(name)) {\r\n                    System.out.println(\"Player already exists\");\r\n                    return false;\r\n                }\r\n            }\r\n        }\r\n\r\n        players.add(new Player(name));\r\n        System.out.println(name + \" added\");\r\n        return true;\r\n    }\r\n\r\n    //MODIFIES: this\r\n    //EFFECTS: removes a player from players and return true, if not found, return false\r\n    private boolean removePlayer() {\r\n        System.out.println(\"Which player would you like to remove?\");\r\n        String name = input.next();\r\n\r\n        for (Player p: players) {\r\n            if (p.getName().equals(name)) {\r\n                players.remove(p);\r\n                System.out.println(name + \" removed\");\r\n                return true;\r\n            }\r\n        }\r\n\r\n        System.out.println(name + \" was not found in the list\");\r\n        return false;\r\n    }\r\n\r\n    //EFFECTS: prints out all the word pairs in the wordlist\r\n    private void displayWordPairs() {\r\n        System.out.println(\"Words:\");\r\n        for (WordPair wp: wordList) {\r\n            System.out.println(wp.getFirstWord() + \" and \" + wp.getSecondWord());\r\n        }\r\n    }\r\n\r\n    //EFFECTS: prints out the players, with two on each row\r\n    private void displayPlayers() {\r\n        int counter = 0;\r\n\r\n        for (Player p: players) {\r\n            spaceNames(counter, p);\r\n            counter++;\r\n        }\r\n\r\n        if (counter % 2 == 1) {\r\n            System.out.println();\r\n        }\r\n    }\r\n\r\n    //EFFECTS: prints the names with proper spacing and alignment\r\n    private void spaceNames(int counter, Player p) {\r\n        if (counter % 2 == 0) {\r\n            System.out.print(p.getName());\r\n\r\n            for (int x = 0; x < PRINT_NAME_SPACING - p.getName().length(); x++) {\r\n                System.out.print(\" \");\r\n            }\r\n\r\n        } else {\r\n            System.out.println(p.getName());\r\n        }\r\n    }\r\n\r\n    //MODIFIES: this\r\n    //EFFECTS: adds a pair of words to the wordlist\r\n    private void addWordPairs() {\r\n        System.out.println(\"What is the first word that you would like to add?\");\r\n        String firstWord = input.next();\r\n        System.out.println(\"What is the second word that you would like to add?\");\r\n        String secondWord = input.next();\r\n\r\n        wordList.add(new WordPair(firstWord, secondWord));\r\n        System.out.println(\"Word pair added\");\r\n    }\r\n\r\n    //MODIFIES: this\r\n    //EFFECTS: adds the five default word pairs to the wordlist\r\n    private void makeDefaultWordlist() {\r\n        wordList = new ArrayList<>();\r\n        wordList.add(new WordPair(\"Ocean\", \"Pool\"));\r\n        wordList.add(new WordPair(\"Tuxedo\", \"Military Uniform\"));\r\n        wordList.add(new WordPair(\"Java\", \"Python\"));\r\n        wordList.add(new WordPair(\"Tea\", \"Coffee\"));\r\n        wordList.add(new WordPair(\"Chocolate\", \"Vanilla\"));\r\n        wordList.add(new WordPair(\"Mountain\", \"Skyscraper\"));\r\n    }\r\n\r\n    //MODIFIES: this\r\n    //EFFECTS: initiates the fields\r\n    private void initValues() {\r\n        input = new Scanner(System.in);\r\n        menuState = MenuState.MENU;\r\n        players = new ArrayList<>();\r\n        makeDefaultWordlist(); //initiates word list\r\n    }\r\n\r\n    //MODIFIES: this\r\n    //EFFECTS: cheat for testing, initiates default list of players\r\n    private void initiateDefaultPlayers() {\r\n        players.add(new Player(\"Amy\"));\r\n        players.add(new Player(\"Bob\"));\r\n        players.add(new Player(\"Cedric\"));\r\n        players.add(new Player(\"Deborah\"));\r\n        players.add(new Player(\"Evan\"));\r\n        players.add(new Player(\"Fatima\"));\r\n        players.add(new Player(\"Gordon\"));\r\n        players.add(new Player(\"Haiti\"));\r\n        players.add(new Player(\"Indigo\"));\r\n        players.add(new Player(\"Jackey\"));\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/ui/WordWolfInterface.java	(revision 9ffe24776e1843bf9b52ef701b60fcf885109bba)
++++ src/main/ui/WordWolfInterface.java	(date 1614053465242)
+@@ -1,18 +1,25 @@
+ package ui;
+ 
+ import model.*;
++import persistence.JsonReader;
++import persistence.JsonWriter;
+ 
++import java.io.FileNotFoundException;
++import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.List;
+ import java.util.Scanner;
+ 
+ public class WordWolfInterface {
++    private static final String JSON_STORE = "./data/workroom.json";
+     private static final int PRINT_NAME_SPACING = 10;
+     private static final int MAX_PLAYERS_SIZE = 10;
+     private static final String EDIT_PLAYER_LIST_COMMAND = "1";
+     private static final String EDIT_WORD_LIST_COMMAND = "2";
+     private static final String START_GAME_COMMAND = "3";
+-    private static final String QUIT_COMMAND = "4";
++    private static final String SAVE_WORDS_COMMAND = "4";
++    private static final String LOAD_WORDS_COMMAND = "5";
++    private static final String QUIT_COMMAND = "6";
+     private static final String ADD_PLAYER_COMMAND = "1";
+     private static final String REMOVE_PLAYER_COMMAND = "2";
+     private static final String RETURN_TO_MENU_COMMAND = "3";
+@@ -23,6 +30,8 @@
+     private MenuState menuState;
+     private List<Player> players;
+     private List<WordPair> wordList;
++    private JsonWriter jsonWriter;
++    private JsonReader jsonReader;
+ 
+     private enum MenuState {
+         MENU, PLAYER_EDIT, WORD_EDIT, IN_GAME
+@@ -30,6 +39,8 @@
+ 
+     public WordWolfInterface() {
+         initValues();
++        jsonWriter = new JsonWriter(JSON_STORE);
++        jsonReader = new JsonReader(JSON_STORE);
+         runWordWolf();
+     }
+ 
+@@ -60,6 +71,10 @@
+     private boolean processCommandMainMenu() {
+         String command = input.next();
+ 
++        return handleCommand(command);
++    }
++
++    private boolean handleCommand(String command) {
+         switch (command) {
+             case EDIT_PLAYER_LIST_COMMAND:
+                 menuState = MenuState.PLAYER_EDIT;
+@@ -68,11 +83,13 @@
+                 menuState = MenuState.WORD_EDIT;
+                 break;
+             case START_GAME_COMMAND:
+-                if (players.size() >= 3) {
+-                    menuState = MenuState.IN_GAME;
+-                } else {
+-                    System.out.println("not enough players (need at least 3)");
+-                }
++                handleStartGame();
++                break;
++            case SAVE_WORDS_COMMAND:
++                saveWordList();
++                break;
++            case LOAD_WORDS_COMMAND:
++                loadWorkRoom();
+                 break;
+             case QUIT_COMMAND:
+                 System.out.println("quitting game");
+@@ -81,11 +98,19 @@
+                 System.out.println("Invalid input");
+                 break;
+         }
+-
+-
+         return true;
+     }
+ 
++    // MODIFIES: this
++    // EFFECTS: start the game if there are at least 3 players, otherwise print out message
++    private void handleStartGame() {
++        if (players.size() >= 3) {
++            menuState = MenuState.IN_GAME;
++        } else {
++            System.out.println("not enough players (need at least 3)");
++        }
++    }
++
+     // MODIFIES: this
+     // EFFECTS: processes user command when game state is PLAYER
+     private void processCommandPlayer() {
+@@ -134,7 +159,9 @@
+         System.out.println("1: Add/Remove players");
+         System.out.println("2: Add words");
+         System.out.println("3: Start game");
+-        System.out.println("4: Exit");
++        System.out.println("4: Save Word List");
++        System.out.println("5: Load Word List");
++        System.out.println("6: Exit");
+     }
+ 
+     //EFFECTS: prints out the players in the game and the options
+@@ -204,6 +231,29 @@
+         return false;
+     }
+ 
++    // EFFECTS: saves the workroom to file
++    private void saveWordList() {
++        try {
++            jsonWriter.open();
++            jsonWriter.write(wordList);
++            jsonWriter.close();
++            System.out.println("Saved wordlist to " + JSON_STORE);
++        } catch (FileNotFoundException e) {
++            System.out.println("Unable to write to file: " + JSON_STORE);
++        }
++    }
++
++    // MODIFIES: this
++    // EFFECTS: loads workroom from file
++    private void loadWorkRoom() {
++        try {
++            wordList = jsonReader.read();
++            System.out.println("Loaded wordlist from " + JSON_STORE);
++        } catch (IOException e) {
++            System.out.println("Unable to read from file: " + JSON_STORE);
++        }
++    }
++
+     //EFFECTS: prints out all the word pairs in the wordlist
+     private void displayWordPairs() {
+         System.out.println("Words:");

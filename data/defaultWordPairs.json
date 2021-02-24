@@ -1,28 +1,26 @@
-{
-  "wordPairs": [
+{"wordPairs": [
     {
-      "firstWord": "Ocean",
-      "secondWord": "Pool"
+        "firstWord": "Ocean",
+        "secondWord": "Pool"
     },
     {
-      "firstWord": "Tuxedo",
-      "secondWord": "Military_Uniform"
+        "firstWord": "Tuxedo",
+        "secondWord": "Military_Uniform"
     },
     {
-      "firstWord": "Java",
-      "secondWord": "Python"
+        "firstWord": "Java",
+        "secondWord": "Python"
     },
     {
-      "firstWord": "Tea",
-      "secondWord": "Coffee"
+        "firstWord": "Tea",
+        "secondWord": "Coffee"
     },
     {
-      "firstWord": "Chocolate",
-      "secondWord": "Vanilla"
+        "firstWord": "Chocolate",
+        "secondWord": "Vanilla"
     },
     {
-      "firstWord": "Mountain",
-      "secondWord": "Skyscraper"
+        "firstWord": "Mountain",
+        "secondWord": "Skyscraper"
     }
-  ]
-}
+]}

@@ -1,18 +1,26 @@
 package ui;
 
 import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class WordWolfInterface {
+    private static final String JSON_STORE = "./data/wordPairs.json";
+    private static final String JSON_DEFAULT_WORDS = "./data/defaultWordPairs.json";
     private static final int PRINT_NAME_SPACING = 10;
     private static final int MAX_PLAYERS_SIZE = 10;
     private static final String EDIT_PLAYER_LIST_COMMAND = "1";
     private static final String EDIT_WORD_LIST_COMMAND = "2";
     private static final String START_GAME_COMMAND = "3";
-    private static final String QUIT_COMMAND = "4";
+    private static final String SAVE_WORDLIST_COMMAND = "4";
+    private static final String LOAD_WORDLIST_COMMAND = "5";
+    private static final String QUIT_COMMAND = "6";
     private static final String ADD_PLAYER_COMMAND = "1";
     private static final String REMOVE_PLAYER_COMMAND = "2";
     private static final String RETURN_TO_MENU_COMMAND = "3";
@@ -23,6 +31,8 @@ public class WordWolfInterface {
     private MenuState menuState;
     private List<Player> players;
     private List<WordPair> wordList;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     private enum MenuState {
         MENU, PLAYER_EDIT, WORD_EDIT, IN_GAME
@@ -30,6 +40,8 @@ public class WordWolfInterface {
 
     public WordWolfInterface() {
         initValues();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runWordWolf();
     }
 
@@ -62,17 +74,15 @@ public class WordWolfInterface {
 
         switch (command) {
             case EDIT_PLAYER_LIST_COMMAND:
-                menuState = MenuState.PLAYER_EDIT;
-                break;
             case EDIT_WORD_LIST_COMMAND:
-                menuState = MenuState.WORD_EDIT;
-                break;
             case START_GAME_COMMAND:
-                if (players.size() >= 3) {
-                    menuState = MenuState.IN_GAME;
-                } else {
-                    System.out.println("not enough players (need at least 3)");
-                }
+                menuState = handleChangeMenuState(command);
+                break;
+            case SAVE_WORDLIST_COMMAND:
+                saveWordPairs();
+                break;
+            case LOAD_WORDLIST_COMMAND:
+                loadWordPairs();
                 break;
             case QUIT_COMMAND:
                 System.out.println("quitting game");
@@ -82,8 +92,27 @@ public class WordWolfInterface {
                 break;
         }
 
-
         return true;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: returns a MenuState according to the command given
+    private MenuState handleChangeMenuState(String command) {
+        switch (command) {
+            case EDIT_PLAYER_LIST_COMMAND:
+                return MenuState.PLAYER_EDIT;
+            case EDIT_WORD_LIST_COMMAND:
+                return MenuState.WORD_EDIT;
+            case START_GAME_COMMAND:
+                if (players.size() >= 3) {
+                    return MenuState.IN_GAME;
+                } else {
+                    System.out.println("not enough players (need at least 3)");
+                    return MenuState.MENU;
+                }
+            default:
+                return MenuState.MENU;
+        }
     }
 
     // MODIFIES: this
@@ -134,7 +163,9 @@ public class WordWolfInterface {
         System.out.println("1: Add/Remove players");
         System.out.println("2: Add words");
         System.out.println("3: Start game");
-        System.out.println("4: Exit");
+        System.out.println("4: Save Word List");
+        System.out.println("5: Load Word List");
+        System.out.println("6: Exit");
     }
 
     //EFFECTS: prints out the players in the game and the options
@@ -212,6 +243,29 @@ public class WordWolfInterface {
         }
     }
 
+    // EFFECTS: saves the workroom to file
+    private void saveWordPairs() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(wordList);
+            jsonWriter.close();
+            System.out.println("Saved word list to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads workroom from file
+    private void loadWordPairs() {
+        try {
+            wordList = jsonReader.read();
+            System.out.println("Loaded word list from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
     //EFFECTS: prints out the players, with two on each row
     private void displayPlayers() {
         int counter = 0;
@@ -255,13 +309,22 @@ public class WordWolfInterface {
     //MODIFIES: this
     //EFFECTS: adds the five default word pairs to the wordlist
     private void makeDefaultWordlist() {
+        jsonReader = new JsonReader(JSON_DEFAULT_WORDS);
         wordList = new ArrayList<>();
+        try {
+            wordList = jsonReader.read();
+            System.out.println("Loaded word list from " + JSON_DEFAULT_WORDS);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_DEFAULT_WORDS);
+        }
+        /*
         wordList.add(new WordPair("Ocean", "Pool"));
         wordList.add(new WordPair("Tuxedo", "Military Uniform"));
         wordList.add(new WordPair("Java", "Python"));
         wordList.add(new WordPair("Tea", "Coffee"));
         wordList.add(new WordPair("Chocolate", "Vanilla"));
         wordList.add(new WordPair("Mountain", "Skyscraper"));
+         */
     }
 
     //MODIFIES: this
