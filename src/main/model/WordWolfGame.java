@@ -5,6 +5,9 @@ the word wolf game with a list of players, possible words pairs to choose from,
 and number of wolfs remaining
  */
 
+import exceptions.NotEnoughPlayersException;
+import exceptions.PlayerWithNoRoleInGameException;
+
 import java.util.List;
 
 public class WordWolfGame {
@@ -15,7 +18,16 @@ public class WordWolfGame {
     private int remainingWhites;
     private Role victor;
 
-    public WordWolfGame(List<Player> players, String minorityWord, String majorityWord) {
+    //EFFECTS: throws a PlayerWithNoRoleInGameException if any of the players in the provided list have no roles
+    // creates a word wolf game with the given players
+    public WordWolfGame(List<Player> players, String minorityWord, String majorityWord)
+            throws PlayerWithNoRoleInGameException {
+        for (Player p: players) {
+            if (p.getRole().equals(Role.NOTHING_YET)) {
+                throw new PlayerWithNoRoleInGameException();
+            }
+        }
+
         this.players = players;
         this.minorityWord = minorityWord;
         this.majorityWord = majorityWord;

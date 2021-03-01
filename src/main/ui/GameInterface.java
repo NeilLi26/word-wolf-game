@@ -1,5 +1,8 @@
 package ui;
 
+import exceptions.NotEnoughPlayersException;
+import exceptions.NotEnoughWordsException;
+import exceptions.PlayerWithNoRoleInGameException;
 import model.Player;
 import model.Role;
 import model.WordPair;
@@ -14,6 +17,8 @@ import java.util.Random;
 the interface of a single round of the word wolf game
  */
 public class GameInterface {
+    private static final int MINIMUM_PLAYERS_REQUIRED = 3;
+    private static final int MINIMUM_WORD_PAIR_REQUIRED = 3;
     private static final int PRINT_NAME_SPACING = 10;
     private static final String SKIP_VOTE_COMMAND = "skip";
     private static final String WOLF_GUESS_COMMAND = "wolf";
@@ -28,15 +33,31 @@ public class GameInterface {
         SHOWING_WORDS, DESCRIBING_WORD, PLAYERS_VOTING, END
     }
 
-    public GameInterface(List<Player> players, List<WordPair> wordList) {
-        initGame(players, wordList);
+    //EFFECTS: throws a NotEnoughWordsException if wordList.size() <= MINIMUM_WORD_PAIR_REQUIRED
+    // otherwise creates new instance of a Game interface
+    public GameInterface(List<Player> players, List<WordPair> wordList)
+            throws NotEnoughPlayersException, NotEnoughWordsException {
+        if (wordList.size() <= MINIMUM_WORD_PAIR_REQUIRED) {
+            throw new NotEnoughWordsException();
+        }
+        try {
+            initGame(players, wordList);
+        } catch (PlayerWithNoRoleInGameException e) {
+            System.out.println("A player was not assigned a role");
+            e.printStackTrace();
+        }
         runCurrentGame();
     }
 
     //MODIFIES: this
-    //EFFECTS: choose the right amount of players for each of the minority roles given the current number of players,
-    // and assign roles to them accordingly
-    private List<Player> assignRoles(List<Player> players) {
+    //EFFECTS: throws a
+    // otherwise choose the right amount of players for each of the minority roles
+    // given the current number of players, and assign roles to them accordingly
+    private List<Player> assignRoles(List<Player> players) throws NotEnoughPlayersException {
+        if (players.size() < 3) {
+            throw new NotEnoughPlayersException();
+        }
+
         int totalWolves;
         int totalWhites;
 
@@ -133,7 +154,8 @@ public class GameInterface {
 
     //MODIFIES: this
     //EFFECTS: assigns the roles randomly to players, and then assign words of a given wordpair accordingly
-    private void initGame(List<Player> players, List<WordPair> wordList) {
+    private void initGame(List<Player> players, List<WordPair> wordList)
+            throws NotEnoughPlayersException, PlayerWithNoRoleInGameException {
         this.rand = new Random();
         this.input = new Scanner(System.in);
         List<Player> assignedPlayers = assignRoles(copyPlayers(players));

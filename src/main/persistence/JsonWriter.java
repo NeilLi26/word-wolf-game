@@ -1,5 +1,7 @@
 package persistence;
 
+import model.Player;
+import model.PlayersAndWordPairs;
 import model.WordPair;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,23 +29,10 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes JSON representation of workroom to file
-    public void write(List<WordPair> wordPairList) {
-        JSONObject json = new JSONObject();
-        json.put("wordPairs", wordPairToJson(wordPairList));
-
+    // EFFECTS: writes JSON representation of wordPairList to file
+    public void write(PlayersAndWordPairs playersAndWordPairs) {
+        JSONObject json = playersAndWordPairs.toJson();
         saveToFile(json.toString(TAB));
-    }
-
-    //EFFECTS: returns the Word Pairs to a JSON array
-    private JSONArray wordPairToJson(List<WordPair> wordPairList) {
-        JSONArray jsonArray = new JSONArray();
-
-        for (WordPair wp: wordPairList) {
-            jsonArray.put(wp.toJson());
-        }
-
-        return jsonArray;
     }
 
     // MODIFIES: this

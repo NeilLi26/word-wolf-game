@@ -6,8 +6,11 @@ have an assigned role, whether or not their current word is visible,
 and may or may not have been voted out.
 */
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 @SuppressWarnings("checkstyle:RightCurly")
-public class Player {
+public class Player implements Writable {
     private String name;
     private Role role;
     private String word;
@@ -43,6 +46,13 @@ public class Player {
 
     public void setWord(String word) {
         this.word = word;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        return json;
     }
 
     /*

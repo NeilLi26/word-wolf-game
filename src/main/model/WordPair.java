@@ -24,7 +24,6 @@ public class WordPair implements Writable {
         return secondWord;
     }
 
-    //TODO
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.NotEnoughPlayersException;
+import exceptions.PlayerWithNoRoleInGameException;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,7 +40,48 @@ public class WordWolfGameTest {
             }
         }
 
-        testGame = new WordWolfGame(testPlayers, MINORITY_WORD, MAJORITY_WORD);
+        try {
+            testGame = new WordWolfGame(testPlayers, MINORITY_WORD, MAJORITY_WORD);
+        } catch ( PlayerWithNoRoleInGameException e) {
+            fail("this constructor should be working");
+        }
+    }
+
+    @Test
+    void playerWithNoAssignedRoleConstructorTest() {
+        testPlayers = new ArrayList<>();
+        testPlayers.add(new Player("Amy"));
+        testPlayers.add(new Player("Bob"));
+        testPlayers.add(new Player("Cedric"));
+        testPlayers.add(new Player("Deborah"));
+        testPlayers.add(new Player("Evan"));
+        testPlayers.add(new Player("Fatima"));
+        testPlayers.add(new Player("Gordon"));
+
+
+        for (Player p: testPlayers) {
+            switch (p.getName()) {
+                case "Bob":
+                    p.setRole(Role.MINORITY);
+                    break;
+                case "Deborah":
+                    p.setRole(Role.MRWHITE);
+                    break;
+                case "Evan":
+                    p.setRole(Role.NOTHING_YET);
+                    break;
+                default:
+                    p.setRole(Role.MAJORITY);
+                    break;
+            }
+        }
+
+        try {
+            testGame = new WordWolfGame(testPlayers, MINORITY_WORD, MAJORITY_WORD);
+            fail("this constructor should be failing");
+        } catch ( PlayerWithNoRoleInGameException e) {
+            System.out.println("Nice Catch");
+        }
     }
 
     @Test

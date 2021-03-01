@@ -1,5 +1,7 @@
 package persistence;
 
+import model.Player;
+import model.PlayersAndWordPairs;
 import model.WordPair;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,10 +24,10 @@ public class JsonReader {
 
     // EFFECTS: reads workroom from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public List<WordPair> read() throws IOException {
+    public PlayersAndWordPairs read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
-        return parseWordPairList(jsonObject);
+        return parsePlayersAndWordPairs(jsonObject);
     }
 
     // EFFECTS: reads source file as string and returns it
@@ -40,10 +42,12 @@ public class JsonReader {
     }
 
     // EFFECTS: parses workroom from JSON object and returns it
-    private List<WordPair> parseWordPairList(JSONObject jsonObject) {
+    private PlayersAndWordPairs parsePlayersAndWordPairs(JSONObject jsonObject) {
         List<WordPair> wordPairList = new ArrayList<>();
         addWordPairs(wordPairList, jsonObject);
-        return wordPairList;
+        List<Player> players = new ArrayList<>();
+        addPlayers(players, jsonObject);
+        return new PlayersAndWordPairs(players, wordPairList);
     }
 
     // MODIFIES: wr
@@ -63,5 +67,23 @@ public class JsonReader {
         String secondWord = jsonObject.getString("secondWord");
         WordPair wordPair = new WordPair(firstWord, secondWord);
         wordPairList.add(wordPair);
+    }
+
+    // MODIFIES: wr
+    // EFFECTS: parses thingies from JSON object and adds them to workroom
+    private void addPlayers(List<Player> players, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("players");
+        for (Object json : jsonArray) {
+            JSONObject nextWordPair = (JSONObject) json;
+            addPlayer(players, nextWordPair);
+        }
+    }
+
+    // MODIFIES: wr
+    // EFFECTS: parses thingy from JSON object and adds it to workroom
+    private void addPlayer(List<Player> players, JSONObject jsonObject) {
+        String name = jsonObject.getString("name");
+        Player player = new Player(name);
+        players.add(player);
     }
 }
