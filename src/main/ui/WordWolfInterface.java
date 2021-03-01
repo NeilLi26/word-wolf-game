@@ -1,7 +1,6 @@
 package ui;
 
 import exceptions.NotEnoughPlayersException;
-import exceptions.NotEnoughWordsException;
 import model.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -15,6 +14,7 @@ import java.util.Scanner;
 public class WordWolfInterface {
     private static final String JSON_STORE = "./data/PlayersAndWordPairs.json";
     private static final String JSON_DEFAULT_WORDS = "./data/defaultWordPairs.json";
+    private static final int MINIMUM_WORD_PAIR_REQUIRED = 3;
     private static final int PRINT_NAME_SPACING = 10;
     private static final int MAX_PLAYERS_SIZE = 10;
     private static final String EDIT_PLAYER_LIST_COMMAND = "1";
@@ -67,10 +67,8 @@ public class WordWolfInterface {
             } else if (menuState == MenuState.IN_GAME) {
                 try {
                     new GameInterface(players, wordList);
-                } catch (NotEnoughPlayersException e1) {
-                    System.out.println("you need at least three players");
-                } catch (NotEnoughWordsException e2) {
-                    System.out.println("You need at least three word pairs");
+                } catch (NotEnoughPlayersException e) {
+                    System.out.println("You need at least 3 players to start the game");
                 } finally {
                     menuState = MenuState.MENU;
                 }
@@ -116,7 +114,11 @@ public class WordWolfInterface {
             case EDIT_WORD_LIST_COMMAND:
                 return MenuState.WORD_EDIT;
             case START_GAME_COMMAND:
-                return MenuState.IN_GAME;
+                if (wordList.size() >= MINIMUM_WORD_PAIR_REQUIRED) {
+                    return MenuState.IN_GAME;
+                } else {
+                    System.out.println("You need at least 3 word pairs in your word list");
+                }
             default:
                 return MenuState.MENU;
         }

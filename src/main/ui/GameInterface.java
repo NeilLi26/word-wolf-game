@@ -1,7 +1,6 @@
 package ui;
 
 import exceptions.NotEnoughPlayersException;
-import exceptions.NotEnoughWordsException;
 import exceptions.PlayerWithNoRoleInGameException;
 import model.Player;
 import model.Role;
@@ -17,8 +16,6 @@ import java.util.Random;
 the interface of a single round of the word wolf game
  */
 public class GameInterface {
-    private static final int MINIMUM_PLAYERS_REQUIRED = 3;
-    private static final int MINIMUM_WORD_PAIR_REQUIRED = 3;
     private static final int PRINT_NAME_SPACING = 10;
     private static final String SKIP_VOTE_COMMAND = "skip";
     private static final String WOLF_GUESS_COMMAND = "wolf";
@@ -36,10 +33,7 @@ public class GameInterface {
     //EFFECTS: throws a NotEnoughWordsException if wordList.size() <= MINIMUM_WORD_PAIR_REQUIRED
     // otherwise creates new instance of a Game interface
     public GameInterface(List<Player> players, List<WordPair> wordList)
-            throws NotEnoughPlayersException, NotEnoughWordsException {
-        if (wordList.size() <= MINIMUM_WORD_PAIR_REQUIRED) {
-            throw new NotEnoughWordsException();
-        }
+            throws NotEnoughPlayersException {
         try {
             initGame(players, wordList);
         } catch (PlayerWithNoRoleInGameException e) {

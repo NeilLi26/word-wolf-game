@@ -44,6 +44,8 @@ public class WordWolfGameTest {
             testGame = new WordWolfGame(testPlayers, MINORITY_WORD, MAJORITY_WORD);
         } catch ( PlayerWithNoRoleInGameException e) {
             fail("this constructor should be working");
+        } catch (NotEnoughPlayersException e) {
+            fail("this exception should not have been caught");
         }
     }
 
@@ -80,6 +82,35 @@ public class WordWolfGameTest {
             testGame = new WordWolfGame(testPlayers, MINORITY_WORD, MAJORITY_WORD);
             fail("this constructor should be failing");
         } catch ( PlayerWithNoRoleInGameException e) {
+            System.out.println("Nice Catch");
+        } catch (NotEnoughPlayersException e) {
+            fail("this exception should not have been caught");
+        }
+    }
+
+    @Test
+    void notEnoughPlayersConstructorTest() {
+        testPlayers = new ArrayList<>();
+        testPlayers.add(new Player("Amy"));
+        testPlayers.add(new Player("Bob"));
+
+        for (Player p: testPlayers) {
+            switch (p.getName()) {
+                case "Bob":
+                    p.setRole(Role.MINORITY);
+                    break;
+                default:
+                    p.setRole(Role.MAJORITY);
+                    break;
+            }
+        }
+
+        try {
+            testGame = new WordWolfGame(testPlayers, MINORITY_WORD, MAJORITY_WORD);
+            fail("this constructor should be failing");
+        } catch ( PlayerWithNoRoleInGameException e) {
+            fail("this exception should not have been caught");
+        } catch (NotEnoughPlayersException e) {
             System.out.println("Nice Catch");
         }
     }
