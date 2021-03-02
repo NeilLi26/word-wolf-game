@@ -36,5 +36,6 @@ were also lacking. This is why I want to make an improved version of this game.
 - As a user, I would like to vote out players who have been deemed suspicious by the other players
 - As a user, I would like to have predetermined numbers of players assigned as the "wolf" or "regulars"
 - As a user, I would like a phase at the beginning where individual players could see their own word
-- As a user, I would like to save the current words that are in the wordlist
-- As a user, I would like to load up the words that have been saved in the wordlist
+- As a user, I would like to save the current players and words to a file
+- As a user, I would like to load up the players and words saved
+- As a user, I would like to be able to load from a series of pre made word lists

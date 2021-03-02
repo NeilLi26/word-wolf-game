@@ -11,6 +11,12 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/*
+Writes to a Json file
+
+the code in this class was modeled after the JsonWriter class of the JsonSerializationDemo
+https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+ */
 public class JsonWriter {
     private static final int TAB = 4;
     private PrintWriter writer;
@@ -29,7 +35,7 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes JSON representation of wordPairList to file
+    // EFFECTS: writes JSON representation of players and wordPairList to file
     public void write(PlayersAndWordPairs playersAndWordPairs) {
         JSONObject json = playersAndWordPairs.toJson();
         saveToFile(json.toString(TAB));
