@@ -1,34 +1,40 @@
-{"wordPairs": [
-    {
-        "firstWord": "Ocean",
-        "secondWord": "Pool"
-    },
-    {
-        "firstWord": "Tuxedo",
-        "secondWord": "Military_Uniform"
-    },
-    {
-        "firstWord": "Java",
-        "secondWord": "Python"
-    },
-    {
-        "firstWord": "Tea",
-        "secondWord": "Coffee"
-    },
-    {
-        "firstWord": "Chocolate",
-        "secondWord": "Vanilla"
-    },
-    {
-        "firstWord": "Mountain",
-        "secondWord": "Skyscraper"
-    },
-    {
-        "firstWord": "sup",
-        "secondWord": "man"
-    },
-    {
-        "firstWord": "nothing",
-        "secondWord": "much"
-    }
-]}
+{
+    "players": [
+        {"name": "Amy"},
+        {"name": "Bob"},
+        {"name": "Cedric"},
+        {"name": "Deborah"},
+        {"name": "Evan"},
+        {"name": "Fatima"},
+        {"name": "Gordon"},
+        {"name": "Haiti"},
+        {"name": "Indigo"},
+        {"name": "Jackey"}
+    ],
+    "wordPairs": [
+        {
+            "firstWord": "Vancouver",
+            "secondWord": "Toronto"
+        },
+        {
+            "firstWord": "Jupiter",
+            "secondWord": "Mars"
+        },
+        {
+            "firstWord": "Canada",
+            "secondWord": "Russia"
+        },
+        {
+            "firstWord": "Pacific_Ocean",
+            "secondWord": "Arctic_Ocean"
+        },
+        {
+            "firstWord": "Alps",
+            "secondWord": "Himalayas"
+        },
+        {
+            "firstWord": "Siberia",
+            "secondWord": "Sahara"
+        }
+    ]
+}

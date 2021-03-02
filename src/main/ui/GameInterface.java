@@ -32,13 +32,14 @@ public class GameInterface {
 
     //EFFECTS: throws a NotEnoughWordsException if wordList.size() <= MINIMUM_WORD_PAIR_REQUIRED
     // otherwise creates new instance of a Game interface
-    public GameInterface(List<Player> players, List<WordPair> wordList)
-            throws NotEnoughPlayersException {
+    public GameInterface(List<Player> players, List<WordPair> wordList) {
         try {
             initGame(players, wordList);
         } catch (PlayerWithNoRoleInGameException e) {
             System.out.println("A player was not assigned a role");
             e.printStackTrace();
+        } catch (NotEnoughPlayersException e) {
+            System.out.println("You need at least 3 players to start the game");
         }
         runCurrentGame();
     }

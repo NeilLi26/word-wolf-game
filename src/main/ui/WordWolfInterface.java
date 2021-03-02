@@ -14,15 +14,19 @@ import java.util.Scanner;
 public class WordWolfInterface {
     private static final String JSON_STORE = "./data/PlayersAndWordPairs.json";
     private static final String JSON_DEFAULT_WORDS = "./data/defaultWordPairs.json";
+    private static final String JSON_LOCATION_WORDS = "./data/locationRelatedWords.json";
+    private static final String JSON_POP_CULTURE_WORDS = "./data/popCultureRelatedWords.json";
+    private static final String JSON_UNIVERSITY_WORDS = "./data/universityRelatedWords.json";
     private static final int MINIMUM_WORD_PAIR_REQUIRED = 3;
     private static final int PRINT_NAME_SPACING = 10;
     private static final int MAX_PLAYERS_SIZE = 10;
     private static final String EDIT_PLAYER_LIST_COMMAND = "1";
     private static final String EDIT_WORD_LIST_COMMAND = "2";
     private static final String START_GAME_COMMAND = "3";
-    private static final String SAVE_WORDLIST_COMMAND = "4";
-    private static final String LOAD_WORDLIST_COMMAND = "5";
-    private static final String QUIT_COMMAND = "6";
+    private static final String SAVE_GAME_STATE_COMMAND = "4";
+    private static final String LOAD_GAME_STATE_COMMAND = "5";
+    private static final String CHOOSE_WORDLIST_COMMAND = "6";
+    private static final String QUIT_COMMAND = "7";
     private static final String ADD_PLAYER_COMMAND = "1";
     private static final String REMOVE_PLAYER_COMMAND = "2";
     private static final String REMOVE_ALL_PLAYERS_COMMAND = "3";
@@ -30,6 +34,11 @@ public class WordWolfInterface {
     private static final String DISPLAY_WORDS_COMMAND = "1";
     private static final String ADD_WORDS_COMMAND = "2";
     private static final String REMOVE_ALL_WORDS_COMMAND = "3";
+    private static final String DEFAULT_WORDLIST_COMMAND = "1";
+    private static final String LOCATION_WORDLIST_COMMAND = "2";
+    private static final String POP_CULTURE_WORDLIST_COMMAND = "3";
+    private static final String UNIVERSITY_WORDLIST_COMMAND = "4";
+    private static final String CHOOSE_NONE_COMMAND = "5";
 
     private Scanner input;
     private MenuState menuState;
@@ -40,7 +49,7 @@ public class WordWolfInterface {
     private PlayersAndWordPairs saveState;
 
     private enum MenuState {
-        MENU, PLAYER_EDIT, WORD_EDIT, IN_GAME
+        MENU, PLAYER_EDIT, WORD_EDIT, IN_GAME, CHOOSING_WORDLIST
     }
 
     public WordWolfInterface() {
@@ -55,25 +64,39 @@ public class WordWolfInterface {
         boolean programRunning = true;
 
         while (programRunning) {
-            if (menuState == MenuState.MENU) {
-                displayMenu();
-                programRunning = processCommandMainMenu();
-            } else if (menuState == MenuState.PLAYER_EDIT) {
-                displayPlayerOptions();
-                processCommandPlayer();
-            } else if (menuState == MenuState.WORD_EDIT) {
-                displayWordListOptions();
-                processCommandWords();
-            } else if (menuState == MenuState.IN_GAME) {
-                try {
+            switch (menuState) {
+                case MENU:
+                    displayMenu();
+                    programRunning = processCommandMainMenu();
+                    break;
+                case PLAYER_EDIT:
+                    displayPlayerOptions();
+                    processCommandPlayer();
+                    break;
+                case WORD_EDIT:
+                    wordEditingState();
+                    break;
+                case IN_GAME:
                     new GameInterface(players, wordList);
-                } catch (NotEnoughPlayersException e) {
-                    System.out.println("You need at least 3 players to start the game");
-                } finally {
                     menuState = MenuState.MENU;
-                }
+                    break;
+                case CHOOSING_WORDLIST:
+                    choosingState();
+                    break;
             }
         }
+    }
+
+    //EFFECTS: displays the word editing options, and processes the player's command while in this state
+    private void wordEditingState() {
+        displayWordListOptions();
+        processCommandWords();
+    }
+
+    //EFFECTS: displays the choosing options, and processes the player's command while in this state
+    private void choosingState() {
+        displayPreMadeWordPairsOptions();
+        processCommandChoosing();
     }
 
     // MODIFIES: this
@@ -86,13 +109,14 @@ public class WordWolfInterface {
             case EDIT_PLAYER_LIST_COMMAND:
             case EDIT_WORD_LIST_COMMAND:
             case START_GAME_COMMAND:
+            case CHOOSE_WORDLIST_COMMAND:
                 menuState = handleChangeMenuState(command);
                 break;
-            case SAVE_WORDLIST_COMMAND:
-                saveWordPairs();
+            case SAVE_GAME_STATE_COMMAND:
+                savePlayersAndWordPairs();
                 break;
-            case LOAD_WORDLIST_COMMAND:
-                loadWordPairs();
+            case LOAD_GAME_STATE_COMMAND:
+                loadPlayersAndWordPairs();
                 break;
             case QUIT_COMMAND:
                 System.out.println("quitting game");
@@ -119,6 +143,8 @@ public class WordWolfInterface {
                 } else {
                     System.out.println("You need at least 3 word pairs in your word list");
                 }
+            case CHOOSE_WORDLIST_COMMAND:
+                return MenuState.CHOOSING_WORDLIST;
             default:
                 return MenuState.MENU;
         }
@@ -178,8 +204,9 @@ public class WordWolfInterface {
         System.out.println(ADD_PLAYER_COMMAND + ": Add/Remove players");
         System.out.println(ADD_WORDS_COMMAND + ": Add words");
         System.out.println(START_GAME_COMMAND + ": Start game");
-        System.out.println(SAVE_WORDLIST_COMMAND + ": Save Word List");
-        System.out.println(LOAD_WORDLIST_COMMAND + ": Load Word List");
+        System.out.println(SAVE_GAME_STATE_COMMAND + ": Save Players and current Word List");
+        System.out.println(LOAD_GAME_STATE_COMMAND + ": Load Players and Saved Word List");
+        System.out.println(CHOOSE_WORDLIST_COMMAND + ": Choose a pre-made word list");
         System.out.println(QUIT_COMMAND + ": Exit");
     }
 
@@ -201,6 +228,57 @@ public class WordWolfInterface {
         System.out.println(ADD_WORDS_COMMAND + ". Add word pairs");
         System.out.println(REMOVE_ALL_WORDS_COMMAND + ". Remove all word pairs");
         System.out.println(RETURN_TO_MENU_COMMAND + ". Go back");
+    }
+
+    //EFFECTS: prints out the players in the game and the options
+    private void displayPreMadeWordPairsOptions() {
+        System.out.println("Pre-made word pair options:");
+        System.out.println(DEFAULT_WORDLIST_COMMAND + ". Default Wordlist");
+        System.out.println(LOCATION_WORDLIST_COMMAND + ". Location Wordlist");
+        System.out.println(POP_CULTURE_WORDLIST_COMMAND + ". Pop Culture Wordlist");
+        System.out.println(UNIVERSITY_WORDLIST_COMMAND + ". University Wordlist");
+        System.out.println(CHOOSE_NONE_COMMAND + ". Go back");
+    }
+
+    private void processCommandChoosing() {
+        String command = input.next();
+        String readLocation = "";
+        switch (command) {
+            case DEFAULT_WORDLIST_COMMAND:
+                readLocation = JSON_DEFAULT_WORDS;
+                break;
+            case LOCATION_WORDLIST_COMMAND:
+                readLocation = JSON_LOCATION_WORDS;
+                break;
+            case POP_CULTURE_WORDLIST_COMMAND:
+                readLocation = JSON_POP_CULTURE_WORDS;
+                break;
+            case UNIVERSITY_WORDLIST_COMMAND:
+                readLocation = JSON_UNIVERSITY_WORDS;
+                break;
+            case CHOOSE_NONE_COMMAND:
+                menuState = MenuState.MENU;
+                break;
+            default:
+                System.out.println("Invalid input");
+                break;
+        }
+        readFromPreMadeWords(readLocation);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: loads the wordlist from the given wordlist
+    private void readFromPreMadeWords(String jsonLocation) {
+        if (menuState.equals(MenuState.CHOOSING_WORDLIST)) {
+            jsonReader = new JsonReader(jsonLocation);
+            try {
+                saveState = jsonReader.read();
+                wordList = saveState.getWordPairs();
+                System.out.println("Loaded word list from " + JSON_STORE);
+            } catch (IOException e) {
+                System.out.println("Unable to read from file: " + JSON_STORE);
+            }
+        }
     }
 
     //MODIFIES: this
@@ -260,27 +338,27 @@ public class WordWolfInterface {
         }
     }
 
-    // EFFECTS: saves the workroom to file
-    private void saveWordPairs() {
+    // EFFECTS: saves the players and word pairs to file
+    private void savePlayersAndWordPairs() {
         try {
             saveState = new PlayersAndWordPairs(players, wordList);
             jsonWriter.open();
             jsonWriter.write(saveState);
             jsonWriter.close();
-            System.out.println("Saved word list to " + JSON_STORE);
+            System.out.println("Saved players and word list to " + JSON_STORE);
         } catch (FileNotFoundException e) {
             System.out.println("Unable to write to file: " + JSON_STORE);
         }
     }
 
     // MODIFIES: this
-    // EFFECTS: loads workroom from file
-    private void loadWordPairs() {
+    // EFFECTS: loads players and word pairs from file
+    private void loadPlayersAndWordPairs() {
         try {
             saveState = jsonReader.read();
             wordList = saveState.getWordPairs();
             players = saveState.getPlayers();
-            System.out.println("Loaded word list from " + JSON_STORE);
+            System.out.println("Loaded players and word list from " + JSON_STORE);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }

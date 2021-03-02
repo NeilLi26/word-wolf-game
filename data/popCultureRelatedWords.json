@@ -1,0 +1,35 @@
+{
+  "players": [
+    {"name": "a"},
+    {"name": "b"},
+    {"name": "c"},
+    {"name": "d"},
+    {"name": "e"}
+  ],
+  "wordPairs": [
+    {
+      "firstWord": "Ocean",
+      "secondWord": "Pool"
+    },
+    {
+      "firstWord": "Tuxedo",
+      "secondWord": "Military_Uniform"
+    },
+    {
+      "firstWord": "Java",
+      "secondWord": "Python"
+    },
+    {
+      "firstWord": "Tea",
+      "secondWord": "Coffee"
+    },
+    {
+      "firstWord": "Chocolate",
+      "secondWord": "Vanilla"
+    },
+    {
+      "firstWord": "Mountain",
+      "secondWord": "Skyscraper"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "players": [
+    {"name": "a"},
+    {"name": "b"},
+    {"name": "c"},
+    {"name": "d"},
+    {"name": "e"}
+  ],
+  "wordPairs": [
+    {
+      "firstWord": "Vancouver",
+      "secondWord": "Toronto"
+    },
+    {
+      "firstWord": "Jupiter",
+      "secondWord": "Mars"
+    },
+    {
+      "firstWord": "Canada",
+      "secondWord": "Russia"
+    },
+    {
+      "firstWord": "Pacific_Ocean",
+      "secondWord": "Arctic_Ocean"
+    },
+    {
+      "firstWord": "Alps",
+      "secondWord": "Himalayas"
+    },
+    {
+      "firstWord": "Siberia",
+      "secondWord": "Sahara"
+    }
+  ]
+}

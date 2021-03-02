@@ -1,0 +1,35 @@
+{
+  "players": [
+    {"name": "a"},
+    {"name": "b"},
+    {"name": "c"},
+    {"name": "d"},
+    {"name": "e"}
+  ],
+  "wordPairs": [
+    {
+      "firstWord": "Midterm",
+      "secondWord": "Essay"
+    },
+    {
+      "firstWord": "Office_Hours",
+      "secondWord": "Labs"
+    },
+    {
+      "firstWord": "Computer_Science",
+      "secondWord": "Math"
+    },
+    {
+      "firstWord": "Co-op",
+      "secondWord": "International_Exchange"
+    },
+    {
+      "firstWord": "Stress_Studying",
+      "secondWord": "Stress_Eating"
+    },
+    {
+      "firstWord": "Passing_Out_Studying",
+      "secondWord": "Passing_Out_After_Midterms"
+    }
+  ]
+}
