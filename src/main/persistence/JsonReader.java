@@ -57,7 +57,7 @@ public class JsonReader {
     }
 
     // MODIFIES: wordPairList
-    // EFFECTS: parses wordPairs from JSON object and adds them to workroom
+    // EFFECTS: parses wordPairs from JSON object and adds them to wordPairs
     private void addWordPairs(List<WordPair> wordPairList, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("wordPairs");
         for (Object json : jsonArray) {
@@ -67,7 +67,7 @@ public class JsonReader {
     }
 
     // MODIFIES: wordPairList
-    // EFFECTS: parses a single wordPair from JSON object and adds it to workroom
+    // EFFECTS: parses a single wordPair from JSON object and adds it to wordPairs
     private void addWordPair(List<WordPair> wordPairList, JSONObject jsonObject) {
         String firstWord = jsonObject.getString("firstWord");
         String secondWord = jsonObject.getString("secondWord");
@@ -76,7 +76,7 @@ public class JsonReader {
     }
 
     // MODIFIES: players
-    // EFFECTS: parses Players from JSON object and adds them to workroom
+    // EFFECTS: parses Players from JSON object and adds them to players
     private void addPlayers(List<Player> players, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("players");
         for (Object json : jsonArray) {
@@ -86,7 +86,7 @@ public class JsonReader {
     }
 
     // MODIFIES: players
-    // EFFECTS: parses a single player from JSON object and adds it to workroom
+    // EFFECTS: parses a single player from JSON object and adds it to players
     private void addPlayer(List<Player> players, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         Player player = new Player(name);
