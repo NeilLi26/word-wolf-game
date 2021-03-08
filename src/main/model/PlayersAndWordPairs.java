@@ -25,6 +25,7 @@ public class PlayersAndWordPairs implements Writable {
         return wordPairs;
     }
 
+    // EFFECTS: returns this as JSON object
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

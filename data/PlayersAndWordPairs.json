@@ -1,40 +1,39 @@
 {
     "players": [
-        {"name": "Amy"},
-        {"name": "Bob"},
-        {"name": "Cedric"},
-        {"name": "Deborah"},
-        {"name": "Evan"},
-        {"name": "Fatima"},
-        {"name": "Gordon"},
-        {"name": "Haiti"},
-        {"name": "Indigo"},
-        {"name": "Jackey"}
+        {"name": "Neil"},
+        {"name": "Aidan"},
+        {"name": "Kent"},
+        {"name": "Matthew"},
+        {"name": "Ethan"}
     ],
     "wordPairs": [
         {
-            "firstWord": "Vancouver",
-            "secondWord": "Toronto"
+            "firstWord": "Ocean",
+            "secondWord": "Pool"
         },
         {
-            "firstWord": "Jupiter",
-            "secondWord": "Mars"
+            "firstWord": "Tuxedo",
+            "secondWord": "Military_Uniform"
         },
         {
-            "firstWord": "Canada",
-            "secondWord": "Russia"
+            "firstWord": "Java",
+            "secondWord": "Python"
         },
         {
-            "firstWord": "Pacific_Ocean",
-            "secondWord": "Arctic_Ocean"
+            "firstWord": "Tea",
+            "secondWord": "Coffee"
         },
         {
-            "firstWord": "Alps",
-            "secondWord": "Himalayas"
+            "firstWord": "Chocolate",
+            "secondWord": "Vanilla"
         },
         {
-            "firstWord": "Siberia",
-            "secondWord": "Sahara"
+            "firstWord": "Mountain",
+            "secondWord": "Skyscraper"
+        },
+        {
+            "firstWord": "Up",
+            "secondWord": "Left"
         }
     ]
 }
