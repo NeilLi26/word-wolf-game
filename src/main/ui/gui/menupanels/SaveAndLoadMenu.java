@@ -130,7 +130,6 @@ public class SaveAndLoadMenu extends JPanel implements ActionListener {
         try {
             jsonWriter = new JsonWriter(JSON_STORE);
             jsonWriter.open();
-            System.out.println("nothing");
             jsonWriter.write(playersAndWordPairs);
             jsonWriter.close();
             System.out.println("Saved players and word list to " + JSON_STORE);
