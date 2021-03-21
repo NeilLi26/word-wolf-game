@@ -25,6 +25,41 @@ public class PlayersAndWordPairs implements Writable {
         return wordPairs;
     }
 
+    //setters
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public void setWordPairs(List<WordPair> wordPairs) {
+        this.wordPairs = wordPairs;
+    }
+
+    //adding
+
+    //MODIFIES: this
+    //EFFECTS: adds a player to the player list
+    public void addPlayer(Player player) {
+        players.add(player);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: adds a word pair to the word pair list
+    public void addWordPair(WordPair wordPair) {
+        wordPairs.add(wordPair);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: adds a player to the player list
+    public void removePlayer(int index) {
+        players.remove(index);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: adds a word pair to the word pair list
+    public void removeWordPair(int index) {
+        wordPairs.remove(index);
+    }
+
     // EFFECTS: returns this as JSON object
     @Override
     public JSONObject toJson() {
@@ -33,7 +68,6 @@ public class PlayersAndWordPairs implements Writable {
         json.put("players", playersToJson(players));
         return json;
     }
-
 
     //EFFECTS: returns the Word Pairs to a JSON array
     private JSONArray wordPairToJson(List<WordPair> wordPairList) {

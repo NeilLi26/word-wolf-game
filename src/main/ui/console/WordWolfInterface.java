@@ -1,6 +1,5 @@
-package ui;
+package ui.console;
 
-import exceptions.NotEnoughPlayersException;
 import model.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -416,15 +415,6 @@ public class WordWolfInterface {
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_DEFAULT_WORDS);
         }
-
-        /*
-        wordList.add(new WordPair("Ocean", "Pool"));
-        wordList.add(new WordPair("Tuxedo", "Military Uniform"));
-        wordList.add(new WordPair("Java", "Python"));
-        wordList.add(new WordPair("Tea", "Coffee"));
-        wordList.add(new WordPair("Chocolate", "Vanilla"));
-        wordList.add(new WordPair("Mountain", "Skyscraper"));
-         */
     }
 
     //MODIFIES: this
