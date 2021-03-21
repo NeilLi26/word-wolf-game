@@ -18,10 +18,4 @@ public abstract class WordWolfGamePanel extends JPanel implements ActionListener
         this.wordWolfGame = wordWolfGame;
     }
 
-    //MODIFIES: this
-    //EFFECTS: sets the panel shown to the desired one
-    public void showPanel(String name) {
-        panelController.showGivenPanel(name);
-    }
-
 }

@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 JPanel for the voting portion of a game
  */
 public class VotingPanel extends WordWolfGamePanel {
-    private EndPanel endPanel;
+    private final EndPanel endPanel;
 
     private static final String END_PANEL_NAME = "endPanel";
     private static final String DISCUSSION_PANEL_NAME = "discussionPanel";
@@ -26,16 +26,8 @@ public class VotingPanel extends WordWolfGamePanel {
     private DefaultListModel<String> playersListModel;
     private JList<String> playersJList;
 
-    private JPanel panelWithRemaining;
     private JLabel remainingWolves;
     private JLabel remainingWhites;
-
-    private JPanel panelWithLetMinorWin;
-    private JButton letWolfWinButton;
-    private JButton letWhiteWinButton;
-
-    private JButton voteButton;
-    private JButton skipButton;
 
     //EFFECTS: constructs a new voting panel
     public VotingPanel(StartGamePanel panelController, WordWolfGame wordWolfGame, EndPanel endPanel) {
@@ -55,13 +47,13 @@ public class VotingPanel extends WordWolfGamePanel {
     //MODIFIES: this
     //EFFECTS: creates a list model from the player list and adds it to this
     private void generateListModel(GridBagConstraints gbc) {
-        playersListModel = new DefaultListModel();
+        playersListModel = new DefaultListModel<>();
 
         for (Player p: wordWolfGame.getPlayers()) {
             playersListModel.addElement(p.getName());
         }
 
-        playersJList = new JList(playersListModel);
+        playersJList = new JList<>(playersListModel);
         playersJList.setSelectedIndex(0);
         playersJList.setSize(WIDTH, HEIGHT * 2 / 3);
 
@@ -74,7 +66,7 @@ public class VotingPanel extends WordWolfGamePanel {
     //MODIFIES: this
     //EFFECTS: generates the panel containing information on remaining wolfs and whites
     private void generateRemainingWolvesAndWhites(GridBagConstraints gbc) {
-        panelWithRemaining = new JPanel();
+        JPanel panelWithRemaining = new JPanel();
         remainingWolves = new JLabel("Remaining wolves: " + wordWolfGame.getRemainingWolfs());
         remainingWhites = new JLabel("Remaining whites: " + wordWolfGame.getRemainingWhites());
         panelWithRemaining.add(remainingWolves);
@@ -89,11 +81,11 @@ public class VotingPanel extends WordWolfGamePanel {
     //MODIFIES: this
     //EFFECTS: generates panel for letting the wolf or white win if they guessed the word
     private void generateLetWolfOrWhiteWin(GridBagConstraints gbc) {
-        panelWithLetMinorWin = new JPanel();
-        letWolfWinButton = new JButton("Wolf Win");
+        JPanel panelWithLetMinorWin = new JPanel();
+        JButton letWolfWinButton = new JButton("Wolf Win");
         letWolfWinButton.setActionCommand(WOLF_WIN_COMMAND);
         letWolfWinButton.addActionListener(this);
-        letWhiteWinButton = new JButton("White Win");
+        JButton letWhiteWinButton = new JButton("White Win");
         letWhiteWinButton.setActionCommand(WHITE_WIN_COMMAND);
         letWhiteWinButton.addActionListener(this);
 
@@ -109,10 +101,10 @@ public class VotingPanel extends WordWolfGamePanel {
     //MODIFIES: this
     //EFFECTS: generates the buttons for voting or skipping vote and adds them to this
     private void generateVoteButtons(GridBagConstraints gbc) {
-        voteButton = new JButton("Vote Kick");
+        JButton voteButton = new JButton("Vote Kick");
         voteButton.setActionCommand(VOTE_COMMAND);
         voteButton.addActionListener(this);
-        skipButton = new JButton("Skip Vote");
+        JButton skipButton = new JButton("Skip Vote");
         skipButton.setActionCommand(SKIP_COMMAND);
         skipButton.addActionListener(this);
 

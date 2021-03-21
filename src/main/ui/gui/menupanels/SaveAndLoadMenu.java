@@ -4,7 +4,6 @@ import model.PlayersAndWordPairs;
 import model.WordPair;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import ui.console.WordWolfInterface;
 import ui.gui.WordWolfMenusGUI;
 
 import java.io.FileNotFoundException;
@@ -20,8 +19,8 @@ import java.io.IOException;
 panel for saving and loading to/from a panel
  */
 public class SaveAndLoadMenu extends JPanel implements ActionListener {
-    private WordWolfMenusGUI mainMenu;
-    private PlayersAndWordPairs playersAndWordPairs;
+    private final WordWolfMenusGUI mainMenu;
+    private final PlayersAndWordPairs playersAndWordPairs;
 
     //button commands
     private static final String SAVE_GAME = "saveGame";

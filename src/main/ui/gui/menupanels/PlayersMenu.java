@@ -17,8 +17,8 @@ public class PlayersMenu extends MenuPanel implements ActionListener {
     private static final int MAX_PLAYERS_SIZE = 10;
 
     //Java swing fields
-    private DefaultListModel playersListModel;
-    private JList playersJList;
+    private DefaultListModel<String> playersListModel;
+    private JList<String> playersJList;
     private JTextField field;
 
     //EFFECTS: creates a new PlayersMenu
@@ -37,7 +37,7 @@ public class PlayersMenu extends MenuPanel implements ActionListener {
 
     @Override
     public void updateJList() {
-        playersListModel = new DefaultListModel();
+        playersListModel = new DefaultListModel<>();
 
         for (Player p: playersAndWordPairs.getPlayers()) {
             playersListModel.addElement(p.getName());
@@ -49,13 +49,13 @@ public class PlayersMenu extends MenuPanel implements ActionListener {
     //MODIFIES: this
     //EFFECTS: creates a list model from the player list and adds it to this
     private void generateListModel(GridBagConstraints gbc) {
-        playersListModel = new DefaultListModel();
+        playersListModel = new DefaultListModel<>();
 
         for (Player p: playersAndWordPairs.getPlayers()) {
             playersListModel.addElement(p.getName());
         }
 
-        playersJList = new JList(playersListModel);
+        playersJList = new JList<>(playersListModel);
         playersJList.setSelectedIndex(0);
         playersJList.setSize(WIDTH, HEIGHT * 2 / 3);
 

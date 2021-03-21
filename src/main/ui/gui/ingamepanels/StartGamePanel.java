@@ -20,11 +20,11 @@ public class StartGamePanel extends JPanel implements ActionListener {
     private static final String START_COMMAND = "startGame";
 
     //Card Layout
-    private CardLayout cardLayout = new CardLayout();
+    private final CardLayout cardLayout = new CardLayout();
 
     //Game panels with their names
-    private JPanel panelContainer;
-    private JPanel startPanel = new JPanel();
+    private final JPanel panelContainer;
+    private final JPanel startPanel = new JPanel();
     private static final String START_PANEL_NAME = "startPanel";
     private WordWolfGamePanel seeWordPanel;
     private static final String SEE_WORD_PANEL_NAME = "seeWord";
@@ -34,9 +34,6 @@ public class StartGamePanel extends JPanel implements ActionListener {
     private static final String VOTE_KICK_PANEL_NAME = "voteKickPanel";
     private EndPanel endScreenPanel;
     private static final String END_PANEL_NAME = "endPanel";
-
-    //related buttons, JLists, fields, etc
-    private JButton startButton;
 
     private PlayersAndWordPairs playersAndWordPairs;
     private Random rand;
@@ -70,7 +67,8 @@ public class StartGamePanel extends JPanel implements ActionListener {
     //MODIFIES: this
     //EFFECTS: initiates the starting panel
     private void initStartPanel() {
-        startButton = new JButton("start");
+        //related buttons, JLists, fields, etc
+        JButton startButton = new JButton("start");
         startButton.setActionCommand(START_COMMAND);
         startButton.addActionListener(this);
         startPanel.add(startButton);

@@ -7,7 +7,6 @@ import ui.gui.sound.MidiSoundPlayer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.List;
 
 /*
 the JPanel for when the players see their words
@@ -18,8 +17,8 @@ public class SeeWordPanel extends WordWolfGamePanel {
     private static final String DISCUSSION_PANEL_NAME = "discussionPanel";
 
     //Java swing fields
-    private DefaultListModel playersListModel;
-    private JList playersJList;
+    private DefaultListModel<String> playersListModel;
+    private JList<String> playersJList;
     private JLabel wordShower;
 
     boolean wordShowing;
@@ -47,13 +46,13 @@ public class SeeWordPanel extends WordWolfGamePanel {
     //MODIFIES: this
     //EFFECTS: creates a list model from the player list and adds it to this
     private void generateListModel(GridBagConstraints gbc) {
-        playersListModel = new DefaultListModel();
+        playersListModel = new DefaultListModel<>();
 
         for (Player p: wordWolfGame.getPlayers()) {
             playersListModel.addElement(p.getName());
         }
 
-        playersJList = new JList(playersListModel);
+        playersJList = new JList<>(playersListModel);
         playersJList.setSelectedIndex(0);
         playersJList.setSize(WIDTH, HEIGHT * 2 / 3);
 

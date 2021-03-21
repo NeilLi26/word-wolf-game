@@ -29,8 +29,6 @@ public class WordWolfMenusGUI extends JFrame {
     JPanel saveLoadMenu;
     JTabbedPane tabbedPane = new JTabbedPane();
 
-    //JSON reader for loading default word list
-    private JsonReader jsonReader;
     private static final String JSON_DEFAULT_WORDS = "./data/defaultWordPairs.json";
 
     //EFFECTS: constructs a new WordWolfMenusGUI
@@ -54,7 +52,8 @@ public class WordWolfMenusGUI extends JFrame {
     //MODIFIES: this
     //EFFECTS: loads the word pairs from the default word list file
     private List<WordPair> generateDefaultWordList() {
-        jsonReader = new JsonReader(JSON_DEFAULT_WORDS);
+        //JSON reader for loading default word list
+        JsonReader jsonReader = new JsonReader(JSON_DEFAULT_WORDS);
         List<WordPair> wordList = new ArrayList<>();
         try {
             wordList = jsonReader.read().getWordPairs();
@@ -105,6 +104,7 @@ public class WordWolfMenusGUI extends JFrame {
         return playersAndWordPairs;
     }
 
+    /*
     public JPanel getPlayersMenu() {
         return playersMenu;
     }
@@ -112,6 +112,8 @@ public class WordWolfMenusGUI extends JFrame {
     public JPanel getWordsMenu() {
         return wordsMenu;
     }
+
+     */
 
     //MODIFIES: this
     //EFFECTS: updates the words menu and players menu after a load

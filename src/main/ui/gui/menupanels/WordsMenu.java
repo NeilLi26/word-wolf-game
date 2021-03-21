@@ -1,6 +1,5 @@
 package ui.gui.menupanels;
 
-import model.Player;
 import model.PlayersAndWordPairs;
 import model.WordPair;
 
@@ -17,8 +16,8 @@ public class WordsMenu extends MenuPanel implements ActionListener {
     private static final String REMOVE_WORD_PAIR_COMMAND = "removeWordPair";
 
     //Java swing fields
-    private DefaultListModel wordPairsListModel;
-    private JList wordPairsJList;
+    private DefaultListModel<String> wordPairsListModel;
+    private JList<String> wordPairsJList;
     private JTextField firstWordField;
     private JTextField secondWordField;
 
@@ -38,7 +37,7 @@ public class WordsMenu extends MenuPanel implements ActionListener {
 
     @Override
     public void updateJList() {
-        wordPairsListModel = new DefaultListModel();
+        wordPairsListModel = new DefaultListModel<>();
 
         for (WordPair wordPair : playersAndWordPairs.getWordPairs()) {
             wordPairsListModel.addElement(wordPair.getFirstWord() + " and " + wordPair.getSecondWord());
@@ -50,14 +49,14 @@ public class WordsMenu extends MenuPanel implements ActionListener {
     //MODIFIES: this
     //EFFECTS: creates a list model from the wordPair list and adds it to this
     private void generateListModel(GridBagConstraints gbc) {
-        wordPairsListModel = new DefaultListModel();
+        wordPairsListModel = new DefaultListModel<>();
 
         for (WordPair wordPair : playersAndWordPairs.getWordPairs()) {
             wordPairsListModel.addElement(wordPair.getFirstWord() + " and " + wordPair.getSecondWord());
         }
 
 
-        wordPairsJList = new JList(wordPairsListModel);
+        wordPairsJList = new JList<>(wordPairsListModel);
         wordPairsJList.setSelectedIndex(0);
         wordPairsJList.setSize(WIDTH, HEIGHT * 2 / 3);
 
