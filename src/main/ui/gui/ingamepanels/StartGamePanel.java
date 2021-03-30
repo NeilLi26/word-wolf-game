@@ -80,13 +80,14 @@ public class StartGamePanel extends JPanel implements ActionListener {
     private void startGame() {
         try {
             initGame(playersAndWordPairs.getPlayers(), playersAndWordPairs.getWordPairs());
+            initGamePanels();
         } catch (PlayerWithNoRoleInGameException e) {
             System.out.println("A player was not assigned a role");
             e.printStackTrace();
         } catch (NotEnoughPlayersException e) {
             System.out.println("You need at least 3 players to start the game");
         }
-        initGamePanels();
+
     }
 
     //MODIFIES: this

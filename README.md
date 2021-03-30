@@ -39,3 +39,5 @@ were also lacking. This is why I want to make an improved version of this game.
 - As a user, I would like to save the current players and words to a file
 - As a user, I would like to load up the players and words saved
 - As a user, I would like to be able to load from a series of pre made word lists
+- As a user, I would like to have a game that would not start if there are players who do not have roles
+assigned yet or if there are not enough players
