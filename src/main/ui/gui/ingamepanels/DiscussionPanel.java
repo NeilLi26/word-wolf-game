@@ -13,12 +13,12 @@ public class DiscussionPanel extends WordWolfGamePanel {
     private static final String VOTE_KICK_PANEL_NAME = "voteKickPanel";
     private static final String CONTINUE_COMMAND = "continue";
 
-    JLabel discussionMessage;
-    JButton continueButton;
+    private JLabel discussionMessage;
+    private JButton continueButton;
 
     //EFFECTS: constructs a new discussion panel
-    public DiscussionPanel(StartGamePanel controller, WordWolfGame wordWolfGame) {
-        super(controller, wordWolfGame);
+    public DiscussionPanel(StartGamePanel controller) {
+        super(controller);
         generateAndAddEndMessage();
         generateAndAddEndButton();
     }

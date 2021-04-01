@@ -9,13 +9,10 @@ import java.awt.event.ActionListener;
 standard JPanel for a panel in word wolf game
  */
 public abstract class WordWolfGamePanel extends JPanel implements ActionListener {
-    StartGamePanel panelController;
-    WordWolfGame wordWolfGame;
+    protected StartGamePanel panelController;
 
     //EFFECTS: constructs a new WordWolfGamePanel
-    public WordWolfGamePanel(StartGamePanel panelController, WordWolfGame wordWolfGame) {
+    public WordWolfGamePanel(StartGamePanel panelController) {
         this.panelController = panelController;
-        this.wordWolfGame = wordWolfGame;
     }
-
 }

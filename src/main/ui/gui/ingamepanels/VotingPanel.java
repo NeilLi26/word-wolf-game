@@ -29,10 +29,15 @@ public class VotingPanel extends WordWolfGamePanel {
     private JLabel remainingWolves;
     private JLabel remainingWhites;
 
+    private WordWolfGame wordWolfGame;
+
     //EFFECTS: constructs a new voting panel
-    public VotingPanel(StartGamePanel panelController, WordWolfGame wordWolfGame, EndPanel endPanel) {
-        super(panelController, wordWolfGame);
-        this.endPanel = endPanel;
+    public VotingPanel(StartGamePanel panelController, WordWolfGamePanel endPanel) {
+        super(panelController);
+
+        wordWolfGame = panelController.getWordWolfGame();
+
+        this.endPanel = (EndPanel) endPanel;
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -154,6 +159,7 @@ public class VotingPanel extends WordWolfGamePanel {
 
         double remainingMinorities = wordWolfGame.getRemainingWhites() + wordWolfGame.getRemainingWolfs();
         double remainingTotalPlayers = wordWolfGame.getPlayers().size();
+
         if (remainingMinorities >= remainingTotalPlayers / 2) {
             wordWolfGame.setVictor(Role.MINORITY);
             nextPanel = END_PANEL_NAME;

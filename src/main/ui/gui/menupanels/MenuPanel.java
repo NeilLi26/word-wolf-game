@@ -8,7 +8,7 @@ import javax.swing.*;
 a panel for one of the menus of word wolf
  */
 public abstract class MenuPanel extends JPanel {
-    PlayersAndWordPairs playersAndWordPairs;
+    protected PlayersAndWordPairs playersAndWordPairs;
 
     //constructor
     public MenuPanel(PlayersAndWordPairs playersAndWordPairs) {

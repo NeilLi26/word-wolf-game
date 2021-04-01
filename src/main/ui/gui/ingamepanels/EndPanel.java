@@ -13,12 +13,12 @@ panel for the end of a game of word wolf
 public class EndPanel extends WordWolfGamePanel {
     private static final String END_COMMAND = "endGame";
 
-    JLabel endMessage;
-    JButton endButton;
+    private JLabel endMessage;
+    private JButton endButton;
 
     //EFFECTS: constructs an EndPanel
-    public EndPanel(StartGamePanel panelController, WordWolfGame wordWolfGame) {
-        super(panelController, wordWolfGame);
+    public EndPanel(StartGamePanel panelController) {
+        super(panelController);
 
         setLayout(new GridLayout(2, 1, 6, 6));
         generateAndAddEndMessage();
@@ -45,7 +45,7 @@ public class EndPanel extends WordWolfGamePanel {
     //MODIFIES: this
     //EFFECTS: modifies the endMessage given the victor
     public void setEndMessage() {
-        Role victor = wordWolfGame.getVictor();
+        Role victor = panelController.getWordWolfGame().getVictor();
 
         if (victor.equals(Role.MAJORITY)) {
             endMessage.setText("The Majority has won!!!");

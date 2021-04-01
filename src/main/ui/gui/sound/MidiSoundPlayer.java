@@ -15,8 +15,8 @@ public class MidiSoundPlayer {
     private static final int higherNote = 62;
     private static final int instrument = 12;
 
-    MidiChannel[] channels;
-    MidiChannel playingChannel;
+    private MidiChannel[] channels;
+    private MidiChannel playingChannel;
 
     //EFFECTS: constructs a new MidiSoundPlayer
     public MidiSoundPlayer() {

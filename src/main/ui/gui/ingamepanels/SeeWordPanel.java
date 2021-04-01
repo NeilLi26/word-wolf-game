@@ -24,11 +24,11 @@ public class SeeWordPanel extends WordWolfGamePanel {
     boolean wordShowing;
 
     //sound player
-    MidiSoundPlayer midiSoundPlayer;
+    private MidiSoundPlayer midiSoundPlayer;
 
     //EFFECTS: constructs a new SeeWordPanel
-    public SeeWordPanel(StartGamePanel panelController, WordWolfGame wordWolfGame) {
-        super(panelController, wordWolfGame);
+    public SeeWordPanel(StartGamePanel panelController) {
+        super(panelController);
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -48,7 +48,7 @@ public class SeeWordPanel extends WordWolfGamePanel {
     private void generateListModel(GridBagConstraints gbc) {
         playersListModel = new DefaultListModel<>();
 
-        for (Player p: wordWolfGame.getPlayers()) {
+        for (Player p: panelController.getWordWolfGame().getPlayers()) {
             playersListModel.addElement(p.getName());
         }
 
@@ -103,7 +103,8 @@ public class SeeWordPanel extends WordWolfGamePanel {
         if (command.equals(HIDE_OR_SHOW_COMMAND)) {
             if (!wordShowing) {
                 wordShower.setText("Your word is: "
-                        + wordWolfGame.getPlayers().get(playersJList.getSelectedIndex()).getWord());
+                        + panelController.getWordWolfGame().getPlayers()
+                        .get(playersJList.getSelectedIndex()).getWord());
                 wordShowing = true;
                 updateUI();
                 midiSoundPlayer.playSoundAscending();

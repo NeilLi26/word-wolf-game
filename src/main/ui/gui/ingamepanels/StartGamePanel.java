@@ -32,7 +32,7 @@ public class StartGamePanel extends JPanel implements ActionListener {
     private static final String DISCUSSION_PANEL_NAME = "discussionPanel";
     private WordWolfGamePanel voteKickPanel;
     private static final String VOTE_KICK_PANEL_NAME = "voteKickPanel";
-    private EndPanel endScreenPanel;
+    private WordWolfGamePanel endScreenPanel;
     private static final String END_PANEL_NAME = "endPanel";
 
     private PlayersAndWordPairs playersAndWordPairs;
@@ -47,6 +47,11 @@ public class StartGamePanel extends JPanel implements ActionListener {
         initStartPanel();
         cardLayout.show(panelContainer, START_PANEL_NAME);
         add(panelContainer);
+    }
+
+    //EFFECTS: returns the wordWolfGame
+    public WordWolfGame getWordWolfGame() {
+        return this.wordWolfGame;
     }
 
     //EFFECTS: shows the panel with the given name
@@ -192,10 +197,10 @@ public class StartGamePanel extends JPanel implements ActionListener {
     //MODIFIES: this
     //EFFECTS: adds the game panels past the start panel to the game
     private void initGamePanels() {
-        seeWordPanel = new SeeWordPanel(this, wordWolfGame);
-        discussionPanel = new DiscussionPanel(this, wordWolfGame);
-        endScreenPanel = new EndPanel(this, wordWolfGame);
-        voteKickPanel = new VotingPanel(this, wordWolfGame, endScreenPanel);
+        seeWordPanel = new SeeWordPanel(this);
+        discussionPanel = new DiscussionPanel(this);
+        endScreenPanel = new EndPanel(this);
+        voteKickPanel = new VotingPanel(this, endScreenPanel);
         panelContainer.add(seeWordPanel, SEE_WORD_PANEL_NAME);
         panelContainer.add(discussionPanel, DISCUSSION_PANEL_NAME);
         panelContainer.add(voteKickPanel, VOTE_KICK_PANEL_NAME);

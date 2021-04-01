@@ -41,3 +41,9 @@ were also lacking. This is why I want to make an improved version of this game.
 - As a user, I would like to be able to load from a series of pre made word lists
 - As a user, I would like to have a game that would not start if there are players who do not have roles
 assigned yet or if there are not enough players
+
+##Phase 4: Task 3
+- Refactor the code so that VotingPanel would not have an association with WordWolfGame
+- Refactor the code so that WordWolfGUI would not have an association with JsonReader
+- Refactor the code so that SaveAndLoadMenu would not have an association with PlayersAndWordPairs
+- Refactor the code so that MenuPanel would not have an association with PlayersAndWordPairs

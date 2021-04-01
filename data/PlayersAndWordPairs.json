@@ -1,13 +1,12 @@
 {
     "players": [
-        {"name": "1"},
-        {"name": "2"},
-        {"name": "3"},
-        {"name": "4"},
-        {"name": "5"},
-        {"name": "6"},
-        {"name": "7"},
-        {"name": "8"}
+        {"name": "Neil"},
+        {"name": "Denis"},
+        {"name": "Jose"},
+        {"name": "Arianna"},
+        {"name": "Jayson"},
+        {"name": "Raifah"},
+        {"name": "random_person"}
     ],
     "wordPairs": [
         {
@@ -31,8 +30,12 @@
             "secondWord": "Stress_Eating"
         },
         {
-            "firstWord": "Passing_Out_Studying",
-            "secondWord": "Passing_Out_After_Midterms"
+            "firstWord": "Getting_25/25_on_something_hard",
+            "secondWord": "Forgetting_to_call_a_method_on_its_class"
+        },
+        {
+            "firstWord": "1",
+            "secondWord": "2"
         }
     ]
 }

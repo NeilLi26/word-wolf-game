@@ -20,14 +20,14 @@ word wolf gui JFrame, with all the menu related panels
  */
 public class WordWolfMenusGUI extends JFrame {
     //players and words
-    PlayersAndWordPairs playersAndWordPairs;
+    private PlayersAndWordPairs playersAndWordPairs;
 
     //Java Swing related fields
-    MenuPanel playersMenu;
-    MenuPanel wordsMenu;
-    JPanel gameMenu;
-    JPanel saveLoadMenu;
-    JTabbedPane tabbedPane = new JTabbedPane();
+    private MenuPanel playersMenu;
+    private MenuPanel wordsMenu;
+    private StartGamePanel gameMenu;
+    private SaveAndLoadMenu saveLoadMenu;
+    private JTabbedPane tabbedPane = new JTabbedPane();
 
     private static final String JSON_DEFAULT_WORDS = "./data/defaultWordPairs.json";
 
