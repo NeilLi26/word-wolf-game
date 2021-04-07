@@ -39,11 +39,17 @@ were also lacking. This is why I want to make an improved version of this game.
 - As a user, I would like to save the current players and words to a file
 - As a user, I would like to load up the players and words saved
 - As a user, I would like to be able to load from a series of pre made word lists
+
+##Phase 4: Task 2
 - As a user, I would like to have a game that would not start if there are players who do not have roles
 assigned yet or if there are not enough players
 
 ##Phase 4: Task 3
-- Refactor the code so that VotingPanel would not have an association with WordWolfGame
-- Refactor the code so that WordWolfGUI would not have an association with JsonReader
-- Refactor the code so that SaveAndLoadMenu would not have an association with PlayersAndWordPairs
-- Refactor the code so that MenuPanel would not have an association with PlayersAndWordPairs
+- Refactor the code so that VotingPanel would not have an association with WordWolfGame, done by replacing the calls to
+WordWolfGame with calls to StartGamePanel.getWordWolfGame();
+- Refactor the code so that WordWolfGUI would not have an association with JsonReader, by having a method in the
+SaveAndLoadMenu that is meant to load the default words, and calling it from WordWolfGUI when loading default words
+- Refactor the code so that SaveAndLoadMenu would not have an association with PlayersAndWordPairs, this could be done
+by having the changing of the PlayersAndWordPairs be handled by WordWolfGUI.
+- Refactor the code so that MenuPanel would not have an association with PlayersAndWordPairs, this would also be done by
+having the changing of the PlayersAndWordPairs be handled by WordWolfGUI.
