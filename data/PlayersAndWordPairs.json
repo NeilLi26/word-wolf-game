@@ -5,8 +5,7 @@
         {"name": "Jose"},
         {"name": "Arianna"},
         {"name": "Jayson"},
-        {"name": "Raifah"},
-        {"name": "random_person"}
+        {"name": "Raifah"}
     ],
     "wordPairs": [
         {
@@ -30,12 +29,8 @@
             "secondWord": "Stress_Eating"
         },
         {
-            "firstWord": "Getting_25/25_on_something_hard",
-            "secondWord": "Forgetting_to_call_a_method_on_its_class"
-        },
-        {
-            "firstWord": "1",
-            "secondWord": "2"
+            "firstWord": "Passing_Out_Studying",
+            "secondWord": "Passing_Out_After_Midterms"
         }
     ]
 }
