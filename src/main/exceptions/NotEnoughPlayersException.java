@@ -1,4 +1,4 @@
 package exceptions;
 
-public class NotEnoughPlayersException extends Exception{
+public class NotEnoughPlayersException extends Exception {
 }
